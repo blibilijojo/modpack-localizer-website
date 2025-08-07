@@ -12,8 +12,25 @@ interface Data {
 export const handler: Handlers<Data> = {
   async GET(_, ctx) {
     try {
-      const resp = await fetch("https://api.github.com/repos/blibilijojo/Modpack-Localizer/releases/latest");
-      if (!resp.ok) throw new Error("GitHub API request failed");
+      // 从环境变量中读取令牌
+      const token = Deno.env.get("GITHUB_TOKEN");
+      
+      const headers = new Headers();
+      if (token) {
+        // 如果令牌存在，就添加到请求头中
+        headers.append("Authorization", `Bearer ${token}`);
+      }
+
+      const resp = await fetch("https://api.github.com/repos/blibilijojo/Modpack-Localizer/releases/latest", {
+        headers: headers, // 将包含令牌的请求头发出去
+      });
+
+      if (!resp.ok) {
+        // 如果请求失败，把返回的文本也打印出来，方便调试
+        const errorBody = await resp.text();
+        throw new Error(`GitHub API request failed with status ${resp.status}: ${errorBody}`);
+      }
+
       const release = await resp.json();
       const asset = release.assets.find((a: any) => a.name.endsWith(".exe"));
       return ctx.render({ 
@@ -21,7 +38,7 @@ export const handler: Handlers<Data> = {
         version: release.tag_name || "N/A"
       });
     } catch (error) {
-      console.error("Failed to fetch latest release:", error.message);
+      console.error("Failed to fetch latest release:", error);
       return ctx.render({ downloadUrl: "https://github.com/blibilijojo/Modpack-Localizer/releases", version: null });
     }
   },
@@ -55,7 +72,6 @@ export default function Home({ data }: PageProps<Data>) {
                <img src="https://github.com/user-attachments/assets/dc267e88-7e56-4242-b750-babfca545a2a" alt="App Screenshot" class="rounded-lg shadow-2xl mx-auto max-w-4xl w-full" />
             </div>
           </section>
-
           <section class="mt-20">
               <h3 class="text-3xl font-bold text-center mb-10">{texts.feature_showcase}</h3>
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
@@ -71,7 +87,6 @@ export default function Home({ data }: PageProps<Data>) {
                   </div>
               </div>
           </section>
-
           <section class="mt-20">
               <h3 class="text-3xl font-bold text-center mb-10">{texts.features_title}</h3>
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -83,8 +98,6 @@ export default function Home({ data }: PageProps<Data>) {
                   ))}
               </div>
           </section>
-
-          {/* --- 新增的鸣谢板块渲染逻辑 --- */}
           <section class="mt-20">
             <h3 class="text-3xl font-bold text-center mb-10">{texts.acknowledgements_title}</h3>
             <p class="text-center text-gray-400 max-w-3xl mx-auto mb-8">
@@ -101,8 +114,6 @@ export default function Home({ data }: PageProps<Data>) {
               ))}
             </div>
           </section>
-          {/* --- 新增结束 --- */}
-
         </main>
         <Footer />
       </div>
