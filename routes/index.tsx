@@ -7,7 +7,7 @@ import Footer from "../components/Footer.tsx";
 interface Data {
   downloadUrl: string | null;
   version: string | null;
-  updateTime: string | null; // 新增：用于存放格式化后的时间字符串
+  updateTime: string | null;
 }
 
 export const handler: Handlers<Data> = {
@@ -31,24 +31,38 @@ export const handler: Handlers<Data> = {
       const release = await resp.json();
       const asset = release.assets.find((a: any) => a.name.endsWith(".exe"));
       
-      // --- 新增：处理和格式化发布时间 ---
       let formattedTime = null;
       if (release.published_at) {
-        const date = new Date(release.published_at);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        const seconds = String(date.getSeconds()).padStart(2, '0');
+        // --- 核心修改：进行时区转换 ---
+        // 1. 将 UTC 时间字符串转换为 Date 对象
+        const utcDate = new Date(release.published_at);
+        
+        // 2. 计算 UTC+8 的时间戳（毫秒）
+        // getTime() 获取的是自1970年1月1日以来的毫秒数
+        // 8 * 60 * 60 * 1000 是一天的毫秒数
+        const cstTimestamp = utcDate.getTime() + (8 * 60 * 60 * 1000);
+        
+        // 3. 使用 UTC+8 的时间戳创建一个新的 Date 对象
+        const cstDate = new Date(cstTimestamp);
+        
+        // 4. 使用 toISOString() 获取一个标准的 "YYYY-MM-DDTHH:mm:ss.sssZ" 格式的字符串
+        //    然后进行分割和拼接，以得到我们想要的格式
+        //    注意：我们使用 getUTCFullYear, getUTCMonth 等方法，因为我们的 cstDate 对象的时间戳已经是正确的了
+        const year = cstDate.getUTCFullYear();
+        const month = String(cstDate.getUTCMonth() + 1).padStart(2, '0');
+        const day = String(cstDate.getUTCDate()).padStart(2, '0');
+        const hours = String(cstDate.getUTCHours()).padStart(2, '0');
+        const minutes = String(cstDate.getUTCMinutes()).padStart(2, '0');
+        const seconds = String(cstDate.getUTCSeconds()).padStart(2, '0');
+        
         formattedTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        // --- 修改结束 ---
       }
-      // --- 新增结束 ---
 
       return ctx.render({ 
         downloadUrl: asset?.browser_download_url || release.html_url,
         version: release.tag_name || "N/A",
-        updateTime: formattedTime, // 将格式化后的时间传递给页面
+        updateTime: formattedTime,
       });
     } catch (error) {
       console.error("Failed to fetch latest release:", error);
@@ -62,7 +76,6 @@ export const handler: Handlers<Data> = {
 };
 
 export default function Home({ data }: PageProps<Data>) {
-  // 从 data 中解构出新的 updateTime
   const { downloadUrl, version, updateTime } = data;
 
   return (
@@ -85,21 +98,17 @@ export default function Home({ data }: PageProps<Data>) {
               <a href={downloadUrl!} class="inline-block bg-blue-600 text-white font-bold text-lg px-8 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-105">
                 {texts.latest_release} {version && `(${version})`}
               </a>
-              {/* --- 新增：在下载按钮下方显示更新时间 --- */}
               {updateTime && (
                 <p class="mt-2 text-sm text-gray-500">
-                  {texts.last_updated_at}{updateTime}
+                  {texts.last_updated_at}{updateTime} (UTC+8)
                 </p>
               )}
-              {/* --- 新增结束 --- */}
             </div>
             <div class="mt-12">
                <img src="https://github.com/user-attachments/assets/dc267e88-7e56-4242-b750-babfca545a2a" alt="App Screenshot" class="rounded-lg shadow-2xl mx-auto max-w-4xl w-full" />
             </div>
           </section>
           
-          {/* ... 其他板块保持不变 ... */}
-
           <section class="mt-20">
               <h3 class="text-3xl font-bold text-center mb-10">{texts.feature_showcase}</h3>
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
