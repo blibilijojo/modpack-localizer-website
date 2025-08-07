@@ -6,6 +6,23 @@ import { texts } from "../content.ts";
 import Header from "../components/Header.tsx";
 import Footer from "../components/Footer.tsx";
 
+// --- 新增：定义缓存的数据结构和缓存对象 ---
+interface CacheData {
+  downloadUrl: string | null;
+  version: string | null;
+  updateTime: string | null;
+}
+
+const cache: {
+  data: CacheData | null;
+  timestamp: number;
+} = {
+  data: null,
+  timestamp: 0,
+};
+
+const CACHE_TTL = 15 * 60 * 1000; // 缓存有效期：15分钟 (毫秒)
+
 function StarField() {
   const shadowsSmall = "796px 985px #fff, 1359px 385px #fff, 958px 102px #fff, 182px 1899px #fff, 1854px 1735px #fff, 1431px 1905px #fff, 1485px 339px #fff, 638px 1007px #fff, 1519px 1233px #fff, 133px 1278px #fff, 115px 120px #fff, 1632px 1475px #fff, 1075px 1222px #fff, 1289px 1253px #fff, 396px 1314px #fff, 1533px 1018px #fff, 1060px 1746px #fff, 1581px 190px #fff, 706px 1863px #fff, 103px 179px #fff";
   const shadowsMedium = "186px 876px #fff, 1530px 1013px #fff, 421px 1879px #fff, 1191px 1584px #fff, 1845px 1889px #fff, 1582px 1438px #fff, 808px 633px #fff, 383px 443px #fff, 49px 1144px #fff, 1344px 1886px #fff, 853px 480px #fff, 747px 1196px #fff, 527px 1546px #fff, 1113px 1243px #fff, 1450px 1568px #fff";
@@ -20,14 +37,21 @@ function StarField() {
   );
 }
 
-interface Data {
+// 接口名从 Data 改为更具描述性的 PageData
+interface PageData {
   downloadUrl: string | null;
   version: string | null;
   updateTime: string | null;
 }
 
-export const handler: Handlers<Data> = {
+export const handler: Handlers<PageData> = {
   async GET(_, ctx) {
+    const now = Date.now();
+    // --- 新增：检查并返回有效的缓存 ---
+    if (cache.data && now - cache.timestamp < CACHE_TTL) {
+      return ctx.render(cache.data);
+    }
+    
     try {
       const token = Deno.env.get("GITHUB_TOKEN");
       const headers = new Headers();
@@ -44,26 +68,43 @@ export const handler: Handlers<Data> = {
       let formattedTime = null;
       if (release.published_at) {
         const utcDate = new Date(release.published_at);
-        const cstDate = new Date(utcDate.getTime() + (8 * 60 * 60 * 1000));
-        formattedTime = cstDate.toISOString().replace('T', ' ').substring(0, 19);
+        // --- 优化：使用 Intl.DateTimeFormat 进行日期格式化 ---
+        formattedTime = new Intl.DateTimeFormat("zh-CN", {
+          timeZone: "Asia/Shanghai",
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false
+        }).format(utcDate).replace(/\//g, '-');
       }
-      return ctx.render({
+      
+      const dataToRender: PageData = {
         downloadUrl: asset?.browser_download_url || release.html_url,
         version: release.tag_name || "N/A",
         updateTime: formattedTime,
-      });
+      };
+
+      // --- 新增：将新数据存入缓存 ---
+      cache.data = dataToRender;
+      cache.timestamp = now;
+
+      return ctx.render(dataToRender);
     } catch (error) {
       console.error("Failed to fetch latest release:", error);
+      // 如果出错，也提供一个默认的回退数据
       return ctx.render({
         downloadUrl: "https://github.com/blibilijojo/Modpack-Localizer/releases",
-        version: null,
-        updateTime: null,
+        version: "N/A",
+        updateTime: "获取失败",
       });
     }
   },
 };
 
-export default function Home({ data }: PageProps<Data>) {
+export default function Home({ data }: PageProps<PageData>) {
   const { downloadUrl, version, updateTime } = data;
 
   return (
@@ -133,7 +174,6 @@ export default function Home({ data }: PageProps<Data>) {
                 </div>
             </section>
 
-            {/* --- 新增：已恢复的鸣谢部分 --- */}
             <section className="mt-20">
                 <h3 className="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.acknowledgements_title}</h3>
                 <p className="max-w-3xl mx-auto text-center text-gray-400 animate-fade-in" style={{animationDelay: "200ms"}}>
@@ -154,7 +194,6 @@ export default function Home({ data }: PageProps<Data>) {
                     ))}
                 </div>
             </section>
-
           </main>
           <Footer />
         </div>
