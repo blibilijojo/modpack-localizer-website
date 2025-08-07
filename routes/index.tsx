@@ -6,8 +6,6 @@ import { texts } from "../content.ts";
 import Header from "../components/Header.tsx";
 import Footer from "../components/Footer.tsx";
 
-// FeatureGrid Island 组件的导入已被彻底移除
-
 function StarField() {
   const shadowsSmall = "796px 985px #fff, 1359px 385px #fff, 958px 102px #fff, 182px 1899px #fff, 1854px 1735px #fff, 1431px 1905px #fff, 1485px 339px #fff, 638px 1007px #fff, 1519px 1233px #fff, 133px 1278px #fff, 115px 120px #fff, 1632px 1475px #fff, 1075px 1222px #fff, 1289px 1253px #fff, 396px 1314px #fff, 1533px 1018px #fff, 1060px 1746px #fff, 1581px 190px #fff, 706px 1863px #fff, 103px 179px #fff";
   const shadowsMedium = "186px 876px #fff, 1530px 1013px #fff, 421px 1879px #fff, 1191px 1584px #fff, 1845px 1889px #fff, 1582px 1438px #fff, 808px 633px #fff, 383px 443px #fff, 49px 1144px #fff, 1344px 1886px #fff, 853px 480px #fff, 747px 1196px #fff, 527px 1546px #fff, 1113px 1243px #fff, 1450px 1568px #fff";
@@ -134,7 +132,7 @@ export default function Home({ data }: PageProps<Data>) {
                 <h3 className="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.features_title}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                   {texts.features.map((feature, i) => (
-                    <div className={`animate-fade-in ${getGridClasses(i)}`} style={{ animationDelay: `${i * 100 + 200}ms` }}>
+                    <div className={`animate-fade-在 ${getGridClasses(i)}`} style={{ animationDelay: `${i * 100 + 200}ms` }}>
                       <div className="h-full bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/10 transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:-translate-y-2">
                         <h4 className="text-xl font-semibold text-blue-400 mb-2">{feature.name}</h4>
                         <p className="text-gray-400">{feature.desc}</p>
