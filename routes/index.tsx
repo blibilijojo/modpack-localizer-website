@@ -1,5 +1,5 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import HomePage from "../islands/HomePage.tsx";
+import App from "../islands/App.tsx";
 
 interface Data {
   downloadUrl: string | null;
@@ -26,6 +26,6 @@ export const handler: Handlers<Data> = {
 
 export default function Home({ data }: PageProps<Data>) {
   return (
-    <HomePage downloadUrl={data.downloadUrl} version={data.version} />
+    <App downloadUrl={data.downloadUrl} version={data.version} />
   );
 }
