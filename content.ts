@@ -1,8 +1,4 @@
-import { signal, computed } from "@preact/signals";
-
-export const lang = signal<'zh' | 'en'>('zh');
-
-const allTexts = {
+export const allTexts = {
   zh: {
     title: "Modpack Localizer Pro - 整合包汉化工坊",
     description: "一款专业的 Minecraft 整合包汉化工作台。它将强大的 AI 翻译、社区资源整合与精细的手动校对、项目存读档功能深度结合，为整合包作者和玩家提供从一键自动化到完整项目管理的全流程本地化体验。",
@@ -14,8 +10,6 @@ const allTexts = {
     dict_search_desc: "强大的原文/译文双向模糊搜索，快速找到您需要的参考翻译。",
     features_title: "核心特性",
     features: [ { name: "工作台模式", desc: "提供专业的“主-从-编辑器”三栏式布局，对每一条翻译进行精细审查和修改。" }, { name: "项目存读档", desc: "可随时将工作进度保存为 .sav 项目文件，之后通过主菜单恢复工作，防止心血白费。" }, { name: "全局词典查询", desc: "支持原文/译文双向智能模糊搜索，并深度集成到工作台中。" }, { name: "智能翻译引擎", desc: "集成 Google Gemini API，提供高质量、可配置的 AI 翻译服务。" }, { name: "多格式兼容", desc: "自动检测并处理模组中的 .json 和 .lang 语言文件。" }, { name: "社区包叠加", desc: "按优先级顺序智能合并多个社区汉化包，充分利用已有成果。" }, ],
-    how_to_use_title: "如何使用",
-    steps: [ "从发行版页面下载最新版本。", "在“AI 服务”选项卡中填入您的 Gemini API 密钥。", "设置您的“Mods 文件夹”和“输出文件夹”。", "选择“AI 自动翻译”或“手动校对”工作模式。", "点击主按钮，开始您的汉化工作流！", ],
     footer_text: "本项目采用 MIT 许可证。",
     view_on_github: "在 GitHub 上查看",
   },
@@ -30,11 +24,7 @@ const allTexts = {
     dict_search_desc: "Powerful, fuzzy, bidirectional search to quickly find the reference translations you need.",
     features_title: "Core Features",
     features: [ { name: "Workbench Mode", desc: "Provides a professional three-pane layout (Master-Detail-Editor) for meticulous review." }, { name: "Project Save/Load", desc: "Save your entire workflow as a .sav project file and reload it anytime to resume your work." }, { name: "Global Dictionary Search", desc: "Supports fuzzy, bidirectional search and is deeply integrated into the workbench." }, { name: "Intelligent Translation Engine", desc: "Integrates with the Google Gemini API for high-quality, configurable AI translation." }, { name: "Multi-Format Support", desc: "Automatically detects and processes both .json and .lang language files from mods." }, { name: "Community Pack Overlay", desc: "Intelligently merges multiple community translation packs based on priority." }, ],
-    how_to_use_title: "How to Use",
-    steps: [ "Download the latest version from the Releases page.", "Enter your Gemini API Key in the 'AI Service' tab.", "Set your 'Mods Folder' and 'Output Folder'.", "Choose your work mode: 'AI Auto-Translate' or 'Manual Proofreading'.", "Click the main button to start your localization workflow!", ],
     footer_text: "This project is licensed under the MIT License.",
     view_on_github: "View on GitHub",
   }
 };
-
-export const texts = computed(() => allTexts[lang.value]);
