@@ -1,8 +1,11 @@
+// routes/index.tsx
+
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
 import { texts } from "../content.ts";
 import Header from "../components/Header.tsx";
 import Footer from "../components/Footer.tsx";
+import FeatureGrid from "../islands/FeatureGrid.tsx"; // 导入新的 Island 组件
 
 function StarField() {
   const shadowsSmall = "796px 985px #fff, 1359px 385px #fff, 958px 102px #fff, 182px 1899px #fff, 1854px 1735px #fff, 1431px 1905px #fff, 1485px 339px #fff, 638px 1007px #fff, 1519px 1233px #fff, 133px 1278px #fff, 115px 120px #fff, 1632px 1475px #fff, 1075px 1222px #fff, 1289px 1253px #fff, 396px 1314px #fff, 1533px 1018px #fff, 1060px 1746px #fff, 1581px 190px #fff, 706px 1863px #fff, 103px 179px #fff";
@@ -42,15 +45,8 @@ export const handler: Handlers<Data> = {
       let formattedTime = null;
       if (release.published_at) {
         const utcDate = new Date(release.published_at);
-        const cstTimestamp = utcDate.getTime() + (8 * 60 * 60 * 1000);
-        const cstDate = new Date(cstTimestamp);
-        const year = cstDate.getUTCFullYear();
-        const month = String(cstDate.getUTCMonth() + 1).padStart(2, '0');
-        const day = String(cstDate.getUTCDate()).padStart(2, '0');
-        const hours = String(cstDate.getUTCHours()).padStart(2, '0');
-        const minutes = String(cstDate.getUTCMinutes()).padStart(2, '0');
-        const seconds = String(cstDate.getUTCSeconds()).padStart(2, '0');
-        formattedTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        const cstDate = new Date(utcDate.getTime() + (8 * 60 * 60 * 1000));
+        formattedTime = cstDate.toISOString().replace('T', ' ').substring(0, 19);
       }
       return ctx.render({
         downloadUrl: asset?.browser_download_url || release.html_url,
@@ -76,6 +72,20 @@ export default function Home({ data }: PageProps<Data>) {
       <Head>
         <title>{texts.title}</title>
         <meta name="description" content={texts.description} />
+        {/* 新增：为滚动动画定义全局CSS规则 */}
+        <style>
+          {`
+            .scroll-animate-card {
+              opacity: 0;
+              transform: translateY(30px);
+              transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            }
+            .scroll-animate-card.is-visible {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          `}
+        </style>
       </Head>
       <div class="bg-gray-900 text-gray-200 min-h-screen font-sans relative" style={{ isolation: 'isolate' }}>
         <StarField />
@@ -91,10 +101,9 @@ export default function Home({ data }: PageProps<Data>) {
                 {texts.description}
               </p>
               <div class="mt-8 animate-fade-in-down" style="animation-delay: 0.6s;">
-                {/* --- MODIFIED BUTTON --- */}
                 <a 
                   href={downloadUrl!} 
-                  class="inline-block text-white font-bold text-lg px-8 py-3 rounded-lg shadow-lg transition-transform transform hover:scale-105 bg-[linear-gradient(90deg,theme(colors.blue.600),theme(colors.teal.500),theme(colors.blue.600))] bg-[length:200%_auto] animate-background-pan"
+                  class="inline-block bg-blue-600 text-white font-bold text-lg px-8 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-105"
                 >
                   {texts.latest_release} {version && `(${version})`}
                 </a>
@@ -105,56 +114,17 @@ export default function Home({ data }: PageProps<Data>) {
                 )}
               </div>
               <div class="mt-12 animate-fade-in" style="animation-delay: 0.8s;">
-                <img src="https://github.com/user-attachments/assets/dc267e88-7e56-4242-b750-babfca545a2a" alt="App Screenshot" class="rounded-lg shadow-2xl mx-auto max-w-4xl w-full" />
+                 <img src="https://github.com/user-attachments/assets/dc267e88-7e56-4242-b750-babfca545a2a" alt="App Screenshot" class="rounded-lg shadow-2xl mx-auto max-w-4xl w-full" />
               </div>
             </section>
             
             <section class="mt-20">
-              <h3 class="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.feature_showcase}</h3>
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                  <div class="bg-gray-800/80 backdrop-blur-sm p-4 rounded-lg animate-fade-in border border-gray-700" style="animation-delay: 0.2s;">
-                      <h4 class="text-xl font-semibold mb-2 text-center">{texts.manual_workbench}</h4>
-                      <p class="text-sm text-gray-400 mb-4 text-center">{texts.manual_workbench_desc}</p>
-                      <img src="https://github.com/user-attachments/assets/81e8a99e-cdd3-4442-8bd8-649da76b7675" alt="Manual Translation Workbench" class="rounded-md shadow-lg"/>
-                  </div>
-                  <div class="bg-gray-800/80 backdrop-blur-sm p-4 rounded-lg animate-fade-in border border-gray-700" style="animation-delay: 0.4s;">
-                      <h4 class="text-xl font-semibold mb-2 text-center">{texts.dict_search}</h4>
-                      <p class="text-sm text-gray-400 mb-4 text-center">{texts.dict_search_desc}</p>
-                      <img src="https://github.com/user-attachments/assets/e78dee9a-92d8-44c2-b3f3-20cc744e81da" alt="Community Dictionary Search" class="rounded-md shadow-lg"/>
-                  </div>
-              </div>
-            </section>
-
-            <section class="mt-20">
-              <h3 class="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.features_title}</h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {/* --- MODIFIED CARDS with Glow Effect --- */}
-                {texts.features.map((feature, i) => (
-                  <div
-                    class="bg-gray-800/80 backdrop-blur-sm p-6 rounded-lg shadow-lg transition-all duration-300 hover:shadow-blue-500/20 hover:-translate-y-2 animate-fade-in border border-gray-700 relative overflow-hidden group"
-                    style={{ animationDelay: `${i * 0.1 + 0.2}s` }}
-                    onMouseMove={(e) => {
-                      const card = e.currentTarget;
-                      const rect = card.getBoundingClientRect();
-                      const x = e.clientX - rect.left;
-                      const y = e.clientY - rect.top;
-                      card.style.setProperty('--mouse-x', `${x}px`);
-                      card.style.setProperty('--mouse-y', `${y}px`);
-                    }}
-                  >
-                    <div class="absolute inset-0 group-hover:bg-[radial-gradient(circle_300px_at_var(--mouse-x)_var(--mouse-y),rgba(0,190,255,0.15),transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div class="relative">
-                      <h4 class="text-xl font-semibold text-blue-400 mb-2">{feature.name}</h4>
-                      <p class="text-gray-400">{feature.desc}</p>
+                <h3 class="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.feature_showcase}</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                    <div class="bg-gray-800/80 backdrop-blur-sm p-4 rounded-lg animate-fade-in border border-gray-700" style="animation-delay: 0.2s;">
+                        <h4 class="text-xl font-semibold mb-2 text-center">{texts.manual_workbench}</h4>
+                        <p class="text-sm text-gray-400 mb-4 text-center">{texts.manual_workbench_desc}</p>
+                        <img src="https://github.com/user-attachments/assets/81e8a99e-cdd3-4442-8bd8-649da76b7675" alt="Manual Translation Workbench" class="rounded-md shadow-lg"/>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </main>
-          <Footer />
-        </div>
-      </div>
-    </>
-  );
-}
+                    <div class="bg-gray-800/80 backdrop-blur-sm p-4 rounded-lg animate-fade-in border border-gray-700" style="animation-delay: 0.4s;">
+       
