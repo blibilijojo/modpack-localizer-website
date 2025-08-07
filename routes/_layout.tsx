@@ -14,4 +14,3 @@ export default function Layout({ Component }: PageProps) {
     </div>
   );
 }
-```*   点击 **`Commit new file`**。
