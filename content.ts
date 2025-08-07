@@ -1,9 +1,8 @@
-// content.ts
-import { signal } from "@preact/signals";
+import { signal, computed } from "@preact/signals";
 
-export const lang = signal('zh');
+export const lang = signal<'zh' | 'en'>('zh');
 
-export const texts = {
+const allTexts = {
   zh: {
     title: "Modpack Localizer Pro - 整合包汉化工坊",
     description: "一款专业的 Minecraft 整合包汉化工作台。它将强大的 AI 翻译、社区资源整合与精细的手动校对、项目存读档功能深度结合，为整合包作者和玩家提供从一键自动化到完整项目管理的全流程本地化体验。",
@@ -37,3 +36,5 @@ export const texts = {
     view_on_github: "View on GitHub",
   }
 };
+
+export const texts = computed(() => allTexts[lang.value]);
