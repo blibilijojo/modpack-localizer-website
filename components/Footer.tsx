@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="container mx-auto px-6 py-8 text-center text-sm text-gray-400">
         <p>{texts.footer_text}</p>
         <a
-          href="https://github.com/blibilijojo/Modpack-Localizer"
+          href={texts.github_url} // <-- 使用了新的字段
           target="_blank"
           rel="noopener noreferrer"
           className="relative inline-block mt-4 text-gray-300 hover:text-blue-400 transition-colors duration-300
