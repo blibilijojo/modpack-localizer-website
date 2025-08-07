@@ -55,6 +55,7 @@ export default function Home({ data }: PageProps<Data>) {
                <img src="https://github.com/user-attachments/assets/dc267e88-7e56-4242-b750-babfca545a2a" alt="App Screenshot" class="rounded-lg shadow-2xl mx-auto max-w-4xl w-full" />
             </div>
           </section>
+
           <section class="mt-20">
               <h3 class="text-3xl font-bold text-center mb-10">{texts.feature_showcase}</h3>
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
@@ -70,6 +71,7 @@ export default function Home({ data }: PageProps<Data>) {
                   </div>
               </div>
           </section>
+
           <section class="mt-20">
               <h3 class="text-3xl font-bold text-center mb-10">{texts.features_title}</h3>
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -81,6 +83,26 @@ export default function Home({ data }: PageProps<Data>) {
                   ))}
               </div>
           </section>
+
+          {/* --- 新增的鸣谢板块渲染逻辑 --- */}
+          <section class="mt-20">
+            <h3 class="text-3xl font-bold text-center mb-10">{texts.acknowledgements_title}</h3>
+            <p class="text-center text-gray-400 max-w-3xl mx-auto mb-8">
+              {texts.acknowledgements_intro}
+            </p>
+            <div class="space-y-6 max-w-3xl mx-auto">
+              {texts.acknowledgements_list.map(item => (
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                  <a href={item.url} target="_blank" rel="noopener noreferrer" class="text-xl font-semibold text-blue-400 hover:underline">
+                    {item.name}
+                  </a>
+                  <p class="text-gray-400 mt-2">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+          {/* --- 新增结束 --- */}
+
         </main>
         <Footer />
       </div>
