@@ -1,8 +1,7 @@
-import { lang, texts } from "../content.ts";
+import { texts } from "../content.ts";
 import LanguageSwitcher from "./LanguageSwitcher.tsx";
 
 export default function Header() {
-  const content = texts[lang.value];
   return (
     <header class="bg-gray-800 text-white shadow-md">
       <div class="container mx-auto px-6 py-4 flex justify-between items-center">
