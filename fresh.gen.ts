@@ -10,7 +10,7 @@ const manifest = {
   routes: {
     "./routes/index.tsx": $0,
   },
-  islands: {}, // 确保这里是空的
+  islands: {}, // 确保 'islands' 这里是空的
   baseUrl: import.meta.url,
 };
 
