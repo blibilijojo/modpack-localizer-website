@@ -1,5 +1,5 @@
 import { Head } from "$fresh/runtime.ts";
-import { lang, texts } from "../content.ts";
+import { texts } from "../content.ts";
 
 interface HomeProps {
   downloadUrl: string | null;
@@ -7,7 +7,7 @@ interface HomeProps {
 }
 
 export default function HomePage({ downloadUrl, version }: HomeProps) {
-  const content = texts[lang.value];
+  const content = texts.value;
 
   return (
     <>
