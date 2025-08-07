@@ -5,15 +5,12 @@
 // This file is automatically updated during development when running `dev.ts`.
 
 import * as $0 from "./routes/index.tsx";
-import * as $$0 from "./islands/FeatureGrid.tsx";
 
 const manifest = {
   routes: {
     "./routes/index.tsx": $0,
   },
-  islands: {
-    "./islands/FeatureGrid.tsx": $$0,
-  },
+  islands: {}, // 确保这里是空的
   baseUrl: import.meta.url,
 };
 
