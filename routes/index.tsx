@@ -5,7 +5,8 @@ import { Head } from "$fresh/runtime.ts";
 import { texts } from "../content.ts";
 import Header from "../components/Header.tsx";
 import Footer from "../components/Footer.tsx";
-import FeatureGrid from "../islands/FeatureGrid.tsx";
+
+// Island 组件已被移除
 
 function StarField() {
   const shadowsSmall = "796px 985px #fff, 1359px 385px #fff, 958px 102px #fff, 182px 1899px #fff, 1854px 1735px #fff, 1431px 1905px #fff, 1485px 339px #fff, 638px 1007px #fff, 1519px 1233px #fff, 133px 1278px #fff, 115px 120px #fff, 1632px 1475px #fff, 1075px 1222px #fff, 1289px 1253px #fff, 396px 1314px #fff, 1533px 1018px #fff, 1060px 1746px #fff, 1581px 190px #fff, 706px 1863px #fff, 103px 179px #fff";
@@ -66,27 +67,24 @@ export const handler: Handlers<Data> = {
 
 export default function Home({ data }: PageProps<Data>) {
   const { downloadUrl, version, updateTime } = data;
+  
+  // 用于Bento网格布局的函数
+  const getGridClasses = (index: number) => {
+    switch (index) {
+      case 0: return "md:col-span-2";
+      case 3: return "md:col-span-2";
+      case 6: return "md:col-span-1 lg:col-span-3";
+      default: return "md:col-span-1";
+    }
+  };
 
   return (
     <>
       <Head>
         <title>{texts.title}</title>
         <meta name="description" content={texts.description} />
-        <style>
-          {`
-            .scroll-animate-card {
-              opacity: 0;
-              transform: translateY(30px);
-              transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            }
-            .scroll-animate-card.is-visible {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          `}
-        </style>
+        {/* 不再需要为滚动动画添加额外的 <style> 标签 */}
       </Head>
-      {/* --- FIXED: The line that caused the error --- */}
       <div className="bg-gray-900 text-gray-200 min-h-screen font-sans relative" style={{ isolation: 'isolate' }}>
         <StarField />
         
@@ -134,9 +132,19 @@ export default function Home({ data }: PageProps<Data>) {
                 </div>
             </section>
 
+            {/* --- 核心特性部分：已恢复为服务器端渲染 --- */}
             <section className="mt-20">
                 <h3 className="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.features_title}</h3>
-                <FeatureGrid features={texts.features} />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                  {texts.features.map((feature, i) => (
+                    <div className={`animate-fade-in ${getGridClasses(i)}`} style={{ animationDelay: `${i * 100 + 200}ms` }}>
+                      <div className="h-full bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/10 transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:-translate-y-2">
+                        <h4 className="text-xl font-semibold text-blue-400 mb-2">{feature.name}</h4>
+                        <p className="text-gray-400">{feature.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
             </section>
           </main>
           <Footer />
