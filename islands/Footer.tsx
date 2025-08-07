@@ -1,7 +1,7 @@
-import { lang, texts } from "../content.ts";
+import { texts } from "../content.ts";
 
 export default function Footer() {
-  const content = texts[lang.value];
+  const content = texts.value;
   return (
     <footer class="bg-gray-800 text-white mt-16">
       <div class="container mx-auto px-6 py-4 text-center text-sm text-gray-400">
