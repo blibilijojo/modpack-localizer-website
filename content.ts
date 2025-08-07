@@ -17,7 +17,6 @@ export const texts = {
     { name: "社区包叠加", desc: "按优先级顺序智能合并多个社区汉化包，充分利用已有成果。" },
   ],
   
-  // --- 修正后的鸣谢部分 ---
   acknowledgements_title: "鸣谢",
   acknowledgements_intro: "本项目的实现离不开以下优秀开源项目和社区提供的宝贵数据资源，在此表示衷心的感谢！",
   acknowledgements_list: [
@@ -32,7 +31,10 @@ export const texts = {
       desc: "该项目是一个强大的词典聚合应用。它将来自多个社区（如 CFPA）的翻译成果，高效地编译成本项目所使用的 Dict-Sqlite.db 数据库格式。",
     },
   ],
-  // --- 修正结束 ---
+
+  // --- 新增的更新时间标签 ---
+  last_updated_at: "最后更新于：",
+  // --- 新增结束 ---
 
   footer_text: "本项目采用 MIT 许可证。",
   view_on_github: "在 GitHub 上查看",
