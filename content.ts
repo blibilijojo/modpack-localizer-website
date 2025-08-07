@@ -1,3 +1,5 @@
+// content.ts
+
 export const texts = {
   title: "Modpack Localizer Pro - 整合包汉化工坊",
   description: "一款专业的 Minecraft 整合包汉化工作台。它将强大的 AI 翻译、社区资源整合与精细的手动校对、项目存读档功能深度结合，为整合包作者和玩家提供从一键自动化到完整项目管理的全流程本地化体验。",
@@ -21,7 +23,7 @@ export const texts = {
     { name: "现代化图形界面", desc: "基于 ttkbootstrap 构建，提供清晰、美观、跨平台的图形用户界面。" },
     { name: "专业日志系统", desc: "自动生成详细的日志文件 (ModpackLocalizer.log)，便于开发者和用户排查问题。" },
   ],
-  
+
   acknowledgements_title: "鸣谢",
   acknowledgements_intro: "本项目的实现离不开以下优秀开源项目和社区提供的宝贵数据资源，在此表示衷心的感谢！",
   acknowledgements_list: [
@@ -41,4 +43,5 @@ export const texts = {
 
   footer_text: "本项目采用 MIT 许可证。",
   view_on_github: "在 GitHub 上查看",
+  github_url: "https://github.com/blibilijojo/Modpack-Localizer" // <-- 新增的字段
 };
