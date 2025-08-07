@@ -5,7 +5,7 @@ import { Head } from "$fresh/runtime.ts";
 import { texts } from "../content.ts";
 import Header from "../components/Header.tsx";
 import Footer from "../components/Footer.tsx";
-import FeatureGrid from "../islands/FeatureGrid.tsx"; // 导入新的 Island 组件
+import FeatureGrid from "../islands/FeatureGrid.tsx";
 
 function StarField() {
   const shadowsSmall = "796px 985px #fff, 1359px 385px #fff, 958px 102px #fff, 182px 1899px #fff, 1854px 1735px #fff, 1431px 1905px #fff, 1485px 339px #fff, 638px 1007px #fff, 1519px 1233px #fff, 133px 1278px #fff, 115px 120px #fff, 1632px 1475px #fff, 1075px 1222px #fff, 1289px 1253px #fff, 396px 1314px #fff, 1533px 1018px #fff, 1060px 1746px #fff, 1581px 190px #fff, 706px 1863px #fff, 103px 179px #fff";
@@ -13,10 +13,10 @@ function StarField() {
   const shadowsLarge = "517px 1747px #fff, 1529px 1139px #fff, 1414px 1836px #fff, 1835px 44px #fff, 1603px 448px #fff, 619px 1307px #fff, 1333px 1001px #fff, 122px 145px #fff, 1788px 1391px #fff, 357px 1163px #fff";
 
   return (
-    <div class="absolute top-0 left-0 right-0 bottom-0 z-0 overflow-hidden">
-      <div class="absolute w-1 h-1 bg-white rounded-full animate-stars-slow top-0" style={{ boxShadow: shadowsSmall }}></div>
-      <div class="absolute w-2 h-2 bg-white rounded-full animate-stars-medium top-0" style={{ boxShadow: shadowsMedium }}></div>
-      <div class="absolute w-3 h-3 bg-white rounded-full animate-stars-fast top-0" style={{ boxShadow: shadowsLarge }}></div>
+    <div className="absolute top-0 left-0 right-0 bottom-0 z-0 overflow-hidden">
+      <div className="absolute w-1 h-1 bg-white rounded-full animate-stars-slow top-0" style={{ boxShadow: shadowsSmall }}></div>
+      <div className="absolute w-2 h-2 bg-white rounded-full animate-stars-medium top-0" style={{ boxShadow: shadowsMedium }}></div>
+      <div className="absolute w-3 h-3 bg-white rounded-full animate-stars-fast top-0" style={{ boxShadow: shadowsLarge }}></div>
     </div>
   );
 }
@@ -72,7 +72,6 @@ export default function Home({ data }: PageProps<Data>) {
       <Head>
         <title>{texts.title}</title>
         <meta name="description" content={texts.description} />
-        {/* 新增：为滚动动画定义全局CSS规则 */}
         <style>
           {`
             .scroll-animate-card {
@@ -87,44 +86,62 @@ export default function Home({ data }: PageProps<Data>) {
           `}
         </style>
       </Head>
-      <div class="bg-gray-900 text-gray-200 min-h-screen font-sans relative" style={{ isolation: 'isolate' }}>
+      {/* --- FIXED: The line that caused the error --- */}
+      <div className="bg-gray-900 text-gray-200 min-h-screen font-sans relative" style={{ isolation: 'isolate' }}>
         <StarField />
         
-        <div class="relative z-10 flex flex-col min-h-screen">
+        <div className="relative z-10 flex flex-col min-h-screen">
           <Header />
-          <main class="container mx-auto px-6 py-12 flex-grow">
-            <section class="text-center">
-              <h2 class="text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300 animate-fade-in-down" style="animation-delay: 0.2s;">
+          <main className="container mx-auto px-6 py-12 flex-grow">
+            <section className="text-center">
+              <h2 className="text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300 animate-fade-in-down" style={{animationDelay: "0.2s"}}>
                 Modpack Localizer Pro
               </h2>
-              <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-400 animate-fade-in-down" style="animation-delay: 0.4s;">
+              <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-400 animate-fade-in-down" style={{animationDelay: "0.4s"}}>
                 {texts.description}
               </p>
-              <div class="mt-8 animate-fade-in-down" style="animation-delay: 0.6s;">
+              <div className="mt-8 animate-fade-in-down" style={{animationDelay: "0.6s"}}>
                 <a 
                   href={downloadUrl!} 
-                  class="inline-block bg-blue-600 text-white font-bold text-lg px-8 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-105"
+                  className="inline-block bg-blue-600 text-white font-bold text-lg px-8 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-105"
                 >
                   {texts.latest_release} {version && `(${version})`}
                 </a>
                 {updateTime && (
-                  <p class="mt-2 text-sm text-gray-500">
+                  <p className="mt-2 text-sm text-gray-500">
                     {texts.last_updated_at}{updateTime} (UTC+8)
                   </p>
                 )}
               </div>
-              <div class="mt-12 animate-fade-in" style="animation-delay: 0.8s;">
-                 <img src="https://github.com/user-attachments/assets/dc267e88-7e56-4242-b750-babfca545a2a" alt="App Screenshot" class="rounded-lg shadow-2xl mx-auto max-w-4xl w-full" />
+              <div className="mt-12 animate-fade-in" style={{animationDelay: "0.8s"}}>
+                 <img src="https://github.com/user-attachments/assets/dc267e88-7e56-4242-b750-babfca545a2a" alt="App Screenshot" className="rounded-lg shadow-2xl mx-auto max-w-4xl w-full" />
               </div>
             </section>
             
-            <section class="mt-20">
-                <h3 class="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.feature_showcase}</h3>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                    <div class="bg-gray-800/80 backdrop-blur-sm p-4 rounded-lg animate-fade-in border border-gray-700" style="animation-delay: 0.2s;">
-                        <h4 class="text-xl font-semibold mb-2 text-center">{texts.manual_workbench}</h4>
-                        <p class="text-sm text-gray-400 mb-4 text-center">{texts.manual_workbench_desc}</p>
-                        <img src="https://github.com/user-attachments/assets/81e8a99e-cdd3-4442-8bd8-649da76b7675" alt="Manual Translation Workbench" class="rounded-md shadow-lg"/>
+            <section className="mt-20">
+                <h3 className="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.feature_showcase}</h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                    <div className="bg-gray-800/80 backdrop-blur-sm p-4 rounded-lg animate-fade-in border border-gray-700" style={{animationDelay: "0.2s"}}>
+                        <h4 className="text-xl font-semibold mb-2 text-center">{texts.manual_workbench}</h4>
+                        <p className="text-sm text-gray-400 mb-4 text-center">{texts.manual_workbench_desc}</p>
+                        <img src="https://github.com/user-attachments/assets/81e8a99e-cdd3-4442-8bd8-649da76b7675" alt="Manual Translation Workbench" className="rounded-md shadow-lg"/>
                     </div>
-                    <div class="bg-gray-800/80 backdrop-blur-sm p-4 rounded-lg animate-fade-in border border-gray-700" style="animation-delay: 0.4s;">
-       
+                    <div className="bg-gray-800/80 backdrop-blur-sm p-4 rounded-lg animate-fade-in border border-gray-700" style={{animationDelay: "0.4s"}}>
+                        <h4 className="text-xl font-semibold mb-2 text-center">{texts.dict_search}</h4>
+                        <p className="text-sm text-gray-400 mb-4 text-center">{texts.dict_search_desc}</p>
+                        <img src="https://github.com/user-attachments/assets/e78dee9a-92d8-44c2-b3f3-20cc744e81da" alt="Community Dictionary Search" className="rounded-md shadow-lg"/>
+                    </div>
+                </div>
+            </section>
+
+            <section className="mt-20">
+                <h3 className="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.features_title}</h3>
+                <FeatureGrid features={texts.features} />
+            </section>
+          </main>
+          <Footer />
+        </div>
+      </div>
+    </>
+  );
+}
