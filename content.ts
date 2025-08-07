@@ -1,6 +1,6 @@
 export const texts = {
   title: "Modpack Localizer Pro - 整合包汉化工坊",
-  description: "一款专业(?)的 Minecraft 整合包汉化工作台。它将强大的 AI 翻译、社区资源整合与精细的手动校对、项目存读档功能深度结合，为整合包作者和玩家提供从一键自动化到完整项目管理的全流程本地化体验。",
+  description: "一款专业（并非）的 Minecraft 整合包汉化工作台。它将强大的 AI 翻译、社区资源整合与精细的手动校对、项目存读档功能深度结合，为整合包作者和玩家提供从一键自动化到完整项目管理的全流程本地化体验。",
   latest_release: "下载最新版",
   feature_showcase: "功能展示",
   manual_workbench: "手动翻译工作台",
