@@ -7,45 +7,63 @@ import Footer from "../components/Footer.tsx";
 interface Data {
   downloadUrl: string | null;
   version: string | null;
+  updateTime: string | null; // 新增：用于存放格式化后的时间字符串
 }
 
 export const handler: Handlers<Data> = {
   async GET(_, ctx) {
     try {
-      // 从环境变量中读取令牌
       const token = Deno.env.get("GITHUB_TOKEN");
-      
       const headers = new Headers();
       if (token) {
-        // 如果令牌存在，就添加到请求头中
         headers.append("Authorization", `Bearer ${token}`);
       }
 
       const resp = await fetch("https://api.github.com/repos/blibilijojo/Modpack-Localizer/releases/latest", {
-        headers: headers, // 将包含令牌的请求头发出去
+        headers: headers,
       });
 
       if (!resp.ok) {
-        // 如果请求失败，把返回的文本也打印出来，方便调试
         const errorBody = await resp.text();
         throw new Error(`GitHub API request failed with status ${resp.status}: ${errorBody}`);
       }
 
       const release = await resp.json();
       const asset = release.assets.find((a: any) => a.name.endsWith(".exe"));
+      
+      // --- 新增：处理和格式化发布时间 ---
+      let formattedTime = null;
+      if (release.published_at) {
+        const date = new Date(release.published_at);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        formattedTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      }
+      // --- 新增结束 ---
+
       return ctx.render({ 
         downloadUrl: asset?.browser_download_url || release.html_url,
-        version: release.tag_name || "N/A"
+        version: release.tag_name || "N/A",
+        updateTime: formattedTime, // 将格式化后的时间传递给页面
       });
     } catch (error) {
       console.error("Failed to fetch latest release:", error);
-      return ctx.render({ downloadUrl: "https://github.com/blibilijojo/Modpack-Localizer/releases", version: null });
+      return ctx.render({ 
+        downloadUrl: "https://github.com/blibilijojo/Modpack-Localizer/releases",
+        version: null,
+        updateTime: null,
+      });
     }
   },
 };
 
 export default function Home({ data }: PageProps<Data>) {
-  const { downloadUrl, version } = data;
+  // 从 data 中解构出新的 updateTime
+  const { downloadUrl, version, updateTime } = data;
 
   return (
     <>
@@ -67,11 +85,21 @@ export default function Home({ data }: PageProps<Data>) {
               <a href={downloadUrl!} class="inline-block bg-blue-600 text-white font-bold text-lg px-8 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-105">
                 {texts.latest_release} {version && `(${version})`}
               </a>
+              {/* --- 新增：在下载按钮下方显示更新时间 --- */}
+              {updateTime && (
+                <p class="mt-2 text-sm text-gray-500">
+                  {texts.last_updated_at}{updateTime}
+                </p>
+              )}
+              {/* --- 新增结束 --- */}
             </div>
             <div class="mt-12">
                <img src="https://github.com/user-attachments/assets/dc267e88-7e56-4242-b750-babfca545a2a" alt="App Screenshot" class="rounded-lg shadow-2xl mx-auto max-w-4xl w-full" />
             </div>
           </section>
+          
+          {/* ... 其他板块保持不变 ... */}
+
           <section class="mt-20">
               <h3 class="text-3xl font-bold text-center mb-10">{texts.feature_showcase}</h3>
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
