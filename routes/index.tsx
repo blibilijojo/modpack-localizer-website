@@ -6,7 +6,7 @@ import { texts } from "../content.ts";
 import Header from "../components/Header.tsx";
 import Footer from "../components/Footer.tsx";
 
-// Island 组件已被移除
+// FeatureGrid Island 组件的导入已被彻底移除
 
 function StarField() {
   const shadowsSmall = "796px 985px #fff, 1359px 385px #fff, 958px 102px #fff, 182px 1899px #fff, 1854px 1735px #fff, 1431px 1905px #fff, 1485px 339px #fff, 638px 1007px #fff, 1519px 1233px #fff, 133px 1278px #fff, 115px 120px #fff, 1632px 1475px #fff, 1075px 1222px #fff, 1289px 1253px #fff, 396px 1314px #fff, 1533px 1018px #fff, 1060px 1746px #fff, 1581px 190px #fff, 706px 1863px #fff, 103px 179px #fff";
@@ -68,7 +68,6 @@ export const handler: Handlers<Data> = {
 export default function Home({ data }: PageProps<Data>) {
   const { downloadUrl, version, updateTime } = data;
   
-  // 用于Bento网格布局的函数
   const getGridClasses = (index: number) => {
     switch (index) {
       case 0: return "md:col-span-2";
@@ -83,7 +82,6 @@ export default function Home({ data }: PageProps<Data>) {
       <Head>
         <title>{texts.title}</title>
         <meta name="description" content={texts.description} />
-        {/* 不再需要为滚动动画添加额外的 <style> 标签 */}
       </Head>
       <div className="bg-gray-900 text-gray-200 min-h-screen font-sans relative" style={{ isolation: 'isolate' }}>
         <StarField />
@@ -132,7 +130,6 @@ export default function Home({ data }: PageProps<Data>) {
                 </div>
             </section>
 
-            {/* --- 核心特性部分：已恢复为服务器端渲染 --- */}
             <section className="mt-20">
                 <h3 className="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.features_title}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
