@@ -33,21 +33,10 @@ export const handler: Handlers<Data> = {
       
       let formattedTime = null;
       if (release.published_at) {
-        // --- 核心修改：进行时区转换 ---
-        // 1. 将 UTC 时间字符串转换为 Date 对象
         const utcDate = new Date(release.published_at);
-        
-        // 2. 计算 UTC+8 的时间戳（毫秒）
-        // getTime() 获取的是自1970年1月1日以来的毫秒数
-        // 8 * 60 * 60 * 1000 是一天的毫秒数
         const cstTimestamp = utcDate.getTime() + (8 * 60 * 60 * 1000);
-        
-        // 3. 使用 UTC+8 的时间戳创建一个新的 Date 对象
         const cstDate = new Date(cstTimestamp);
         
-        // 4. 使用 toISOString() 获取一个标准的 "YYYY-MM-DDTHH:mm:ss.sssZ" 格式的字符串
-        //    然后进行分割和拼接，以得到我们想要的格式
-        //    注意：我们使用 getUTCFullYear, getUTCMonth 等方法，因为我们的 cstDate 对象的时间戳已经是正确的了
         const year = cstDate.getUTCFullYear();
         const month = String(cstDate.getUTCMonth() + 1).padStart(2, '0');
         const day = String(cstDate.getUTCDate()).padStart(2, '0');
@@ -56,7 +45,6 @@ export const handler: Handlers<Data> = {
         const seconds = String(cstDate.getUTCSeconds()).padStart(2, '0');
         
         formattedTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-        // --- 修改结束 ---
       }
 
       return ctx.render({ 
@@ -88,13 +76,13 @@ export default function Home({ data }: PageProps<Data>) {
         <Header />
         <main class="container mx-auto px-6 py-12">
           <section class="text-center">
-            <h2 class="text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300">
+            <h2 class="text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300 animate-fade-in-down" style="animation-delay: 0.2s;">
               Modpack Localizer Pro
             </h2>
-            <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-400">
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-400 animate-fade-in-down" style="animation-delay: 0.4s;">
               {texts.description}
             </p>
-            <div class="mt-8">
+            <div class="mt-8 animate-fade-in-down" style="animation-delay: 0.6s;">
               <a href={downloadUrl!} class="inline-block bg-blue-600 text-white font-bold text-lg px-8 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-105">
                 {texts.latest_release} {version && `(${version})`}
               </a>
@@ -104,20 +92,20 @@ export default function Home({ data }: PageProps<Data>) {
                 </p>
               )}
             </div>
-            <div class="mt-12">
+            <div class="mt-12 animate-fade-in" style="animation-delay: 0.8s;">
                <img src="https://github.com/user-attachments/assets/dc267e88-7e56-4242-b750-babfca545a2a" alt="App Screenshot" class="rounded-lg shadow-2xl mx-auto max-w-4xl w-full" />
             </div>
           </section>
           
           <section class="mt-20">
-              <h3 class="text-3xl font-bold text-center mb-10">{texts.feature_showcase}</h3>
+              <h3 class="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.feature_showcase}</h3>
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                  <div class="bg-gray-800 p-4 rounded-lg">
+                  <div class="bg-gray-800 p-4 rounded-lg animate-fade-in" style="animation-delay: 0.2s;">
                       <h4 class="text-xl font-semibold mb-2 text-center">{texts.manual_workbench}</h4>
                       <p class="text-sm text-gray-400 mb-4 text-center">{texts.manual_workbench_desc}</p>
                       <img src="https://github.com/user-attachments/assets/81e8a99e-cdd3-4442-8bd8-649da76b7675" alt="Manual Translation Workbench" class="rounded-md shadow-lg"/>
                   </div>
-                  <div class="bg-gray-800 p-4 rounded-lg">
+                  <div class="bg-gray-800 p-4 rounded-lg animate-fade-in" style="animation-delay: 0.4s;">
                       <h4 class="text-xl font-semibold mb-2 text-center">{texts.dict_search}</h4>
                       <p class="text-sm text-gray-400 mb-4 text-center">{texts.dict_search_desc}</p>
                       <img src="https://github.com/user-attachments/assets/e78dee9a-92d8-44c2-b3f3-20cc744e81da" alt="Community Dictionary Search" class="rounded-md shadow-lg"/>
@@ -125,10 +113,10 @@ export default function Home({ data }: PageProps<Data>) {
               </div>
           </section>
           <section class="mt-20">
-              <h3 class="text-3xl font-bold text-center mb-10">{texts.features_title}</h3>
+              <h3 class="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.features_title}</h3>
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {texts.features.map(feature => (
-                      <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                  {texts.features.map((feature, i) => (
+                      <div class="bg-gray-800 p-6 rounded-lg shadow-lg transition-all duration-300 hover:shadow-blue-500/20 hover:-translate-y-2 animate-fade-in" style={{ animationDelay: `${i * 0.1 + 0.2}s` }}>
                           <h4 class="text-xl font-semibold text-blue-400 mb-2">{feature.name}</h4>
                           <p class="text-gray-400">{feature.desc}</p>
                       </div>
@@ -136,13 +124,13 @@ export default function Home({ data }: PageProps<Data>) {
               </div>
           </section>
           <section class="mt-20">
-            <h3 class="text-3xl font-bold text-center mb-10">{texts.acknowledgements_title}</h3>
-            <p class="text-center text-gray-400 max-w-3xl mx-auto mb-8">
+            <h3 class="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.acknowledgements_title}</h3>
+            <p class="text-center text-gray-400 max-w-3xl mx-auto mb-8 animate-fade-in" style="animation-delay: 0.2s;">
               {texts.acknowledgements_intro}
             </p>
             <div class="space-y-6 max-w-3xl mx-auto">
-              {texts.acknowledgements_list.map(item => (
-                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+              {texts.acknowledgements_list.map((item, i) => (
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg transition-all duration-300 hover:shadow-teal-500/20 hover:-translate-y-2 animate-fade-in" style={{ animationDelay: `${i * 0.2 + 0.4}s` }}>
                   <a href={item.url} target="_blank" rel="noopener noreferrer" class="text-xl font-semibold text-blue-400 hover:underline">
                     {item.name}
                   </a>
