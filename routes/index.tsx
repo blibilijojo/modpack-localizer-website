@@ -121,7 +121,6 @@ export default function Home({ data }: PageProps<Data>) {
 
             <section className="mt-20">
                 <h3 className="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.features_title}</h3>
-                {/* --- 核心修改在这里 --- */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {texts.features.map((feature, i) => (
                     <div className="animate-fade-in" style={{ animationDelay: `${i * 100 + 200}ms` }}>
@@ -133,6 +132,29 @@ export default function Home({ data }: PageProps<Data>) {
                   ))}
                 </div>
             </section>
+
+            {/* --- 新增：已恢复的鸣谢部分 --- */}
+            <section className="mt-20">
+                <h3 className="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.acknowledgements_title}</h3>
+                <p className="max-w-3xl mx-auto text-center text-gray-400 animate-fade-in" style={{animationDelay: "200ms"}}>
+                    {texts.acknowledgements_intro}
+                </p>
+                <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    {texts.acknowledgements_list.map((ack, i) => (
+                        <div className="animate-fade-in" style={{ animationDelay: `${i * 100 + 400}ms` }}>
+                            <div className="h-full bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/10 transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:-translate-y-1 text-center md:text-left">
+                                <h4 className="text-xl font-semibold text-blue-400 mb-2">
+                                    <a href={ack.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                                        {ack.name}
+                                    </a>
+                                </h4>
+                                <p className="text-gray-400">{ack.desc}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
           </main>
           <Footer />
         </div>
