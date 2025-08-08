@@ -6,7 +6,6 @@ import { texts } from "../content.ts";
 import Header from "../components/Header.tsx";
 import Footer from "../components/Footer.tsx";
 
-// --- 新增：定义缓存的数据结构和缓存对象 ---
 interface CacheData {
   downloadUrl: string | null;
   version: string | null;
@@ -37,7 +36,6 @@ function StarField() {
   );
 }
 
-// 接口名从 Data 改为更具描述性的 PageData
 interface PageData {
   downloadUrl: string | null;
   version: string | null;
@@ -47,7 +45,6 @@ interface PageData {
 export const handler: Handlers<PageData> = {
   async GET(_, ctx) {
     const now = Date.now();
-    // --- 新增：检查并返回有效的缓存 ---
     if (cache.data && now - cache.timestamp < CACHE_TTL) {
       return ctx.render(cache.data);
     }
@@ -68,7 +65,6 @@ export const handler: Handlers<PageData> = {
       let formattedTime = null;
       if (release.published_at) {
         const utcDate = new Date(release.published_at);
-        // --- 优化：使用 Intl.DateTimeFormat 进行日期格式化 ---
         formattedTime = new Intl.DateTimeFormat("zh-CN", {
           timeZone: "Asia/Shanghai",
           year: 'numeric',
@@ -87,14 +83,12 @@ export const handler: Handlers<PageData> = {
         updateTime: formattedTime,
       };
 
-      // --- 新增：将新数据存入缓存 ---
       cache.data = dataToRender;
       cache.timestamp = now;
 
       return ctx.render(dataToRender);
     } catch (error) {
       console.error("Failed to fetch latest release:", error);
-      // 如果出错，也提供一个默认的回退数据
       return ctx.render({
         downloadUrl: "https://github.com/blibilijojo/Modpack-Localizer/releases",
         version: "N/A",
@@ -164,7 +158,7 @@ export default function Home({ data }: PageProps<PageData>) {
                 <h3 className="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.features_title}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {texts.features.map((feature, i) => (
-                    <div className="animate-fade-in" style={{ animationDelay: `${i * 100 + 200}ms` }}>
+                    <div className="animate-fade-in" style={{ animationDelay: `${i * 0.1 + 0.2}s` }}> {/* 调整了延迟时间 */}
                       <div className="h-full bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/10 transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:-translate-y-2">
                         <h4 className="text-xl font-semibold text-blue-400 mb-2">{feature.name}</h4>
                         <p className="text-gray-400">{feature.desc}</p>
@@ -176,28 +170,20 @@ export default function Home({ data }: PageProps<PageData>) {
 
             <section className="mt-20">
                 <h3 className="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.acknowledgements_title}</h3>
-                <p className="max-w-3xl mx-auto text-center text-gray-400 animate-fade-in" style={{animationDelay: "200ms"}}>
+                <p className="max-w-3xl mx-auto text-center text-gray-400 animate-fade-in" style={{animationDelay: "0.2s"}}>
                     {texts.acknowledgements_intro}
                 </p>
                 <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                     {texts.acknowledgements_list.map((ack, i) => (
-                        <div className="animate-fade-in" style={{ animationDelay: `${i * 100 + 400}ms` }}>
+                        <div className="animate-fade-in" style={{ animationDelay: `${i * 0.1 + 0.4}s` }}> {/* 调整了延迟时间 */}
                             <div className="h-full bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/10 transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:-translate-y-1 text-center md:text-left">
                                 <h4 className="text-xl font-semibold text-blue-400 mb-2">
                                     <a href={ack.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
                                         {ack.name}
                                     </a>
+                                    {ack.by && <span className="text-sm text-gray-500 font-normal"> by {ack.by}</span>} {/* 显示 by 字段 */}
                                 </h4>
                                 <p className="text-gray-400">{ack.desc}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </section>
-          </main>
-          <Footer />
-        </div>
-      </div>
-    </>
-  );
-}
+                                {ack.copyright && ( // 如果有版权声明则显示
+                                  <p className="mt-2 text-xs text-gray-500" dangerouslySetInnerHTML={{ __html: ack.copyright }}></p>
+                    
