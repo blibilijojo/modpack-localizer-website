@@ -24,18 +24,21 @@ export const texts = {
     { name: "专业日志系统", desc: "自动生成详细的日志文件 (ModpackLocalizer.log)，便于开发者和用户排查问题。" },
   ],
 
-  acknowledgements_title: "鸣谢",
+  acknowledgements_title: "❤️ 鸣谢与版权", // <-- 修改了标题
   acknowledgements_intro: "本项目的实现离不开以下优秀开源项目和社区提供的宝贵数据资源，在此表示衷心的感谢！",
   acknowledgements_list: [
     {
-      name: "Minecraft-Mod-Language-Package by CFPAOrg",
+      name: "Minecraft-Mod-Language-Package",
+      by: "CFPAOrg", // <-- 新增字段
       url: "https://github.com/CFPAOrg/Minecraft-Mod-Language-Package",
       desc: "该项目是社区词典数据的核心数据来源。它收集并维护了海量高质量的模组汉化文件，为本工具的词典功能提供了坚实的数据基础。",
     },
     {
-      name: "i18n-Dict-Extender by VM-Chinese-translate-group",
+      name: "i18n-Dict-Extender",
+      by: "VM-Chinese-translate-group", // <-- 新增字段
       url: "https://github.com/VM-Chinese-translate-group/i18n-Dict-Extender",
-      desc: "该项目是一个强大的词典聚合应用。它将来自多个社区（如 CFPA）的翻译成果，高效地编译成本项目所使用的 Dict-Sqlite.db 数据库格式。",
+      desc: "该项目是一个强大的词典聚合应用，它将来自多个社区（如 CFPA）的翻译成果高效地编译成本项目所使用的 `Dict-Sqlite.db` 数据库格式。",
+      copyright: `版权声明: 本项目使用的社区词典数据 Dict-Sqlite.db 源自于 i18n-Dict-Extender 项目的构建产物。根据其上游声明，该数据遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-400">CC BY-NC-SA 4.0</a> 协议。` // <-- 新增版权声明
     },
   ],
 
@@ -43,5 +46,5 @@ export const texts = {
 
   footer_text: "本项目采用 MIT 许可证。",
   view_on_github: "在 GitHub 上查看",
-  github_url: "https://github.com/blibilijojo/Modpack-Localizer" // <-- 新增的字段
+  github_url: "https://github.com/blibilijojo/Modpack-Localizer"
 };
