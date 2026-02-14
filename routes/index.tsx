@@ -202,7 +202,7 @@ export default function Home({ data }: PageProps<PageData>) {
                   </div>
                   <div className="animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
                     <h1 className="text-6xl md:text-8xl font-extrabold mb-6 leading-tight">
-                      <span className="block text-gradient bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400">
+                      <span className="block text-gradient bg-gradient-to-r from-cyan-300 via-blue-300 to-purple-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.5)]">
                         {texts.hero.tagline}
                       </span>
                     </h1>
