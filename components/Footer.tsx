@@ -11,7 +11,7 @@ export default function Footer() {
                 🔧
               </div>
               <div>
-                <h2 className="text-xl font-bold text-gradient bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400">
+                <h2 className="text-xl font-bold text-white">
                   Modpack Localizer Pro
                 </h2>
                 <p className="text-gray-500 text-sm">{texts.footer_text}</p>
