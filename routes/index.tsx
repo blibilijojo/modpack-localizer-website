@@ -401,8 +401,8 @@ export default function Home({ data }: PageProps<PageData>) {
                     </div>
                   </div>
                   <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                    <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                      <span className="block text-gradient bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-300">
+                    <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white">
+                      <span className="block">
                         {texts.hero.tagline}
                       </span>
                     </h1>
@@ -468,8 +468,8 @@ export default function Home({ data }: PageProps<PageData>) {
               <div className="container mx-auto px-6 relative z-10">
                 <div className="max-w-3xl mx-auto text-center mb-16">
                   <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                      <span className="text-gradient bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-300">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+                      <span>
                         {texts.feature_showcase}
                       </span>
                     </h2>
@@ -520,8 +520,8 @@ export default function Home({ data }: PageProps<PageData>) {
               <div className="container mx-auto px-6 relative z-10">
                 <div className="max-w-3xl mx-auto text-center mb-16">
                   <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                      <span className="text-gradient bg-gradient-to-r from-cyan-300 to-purple-300">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+                      <span>
                         {texts.features_title}
                       </span>
                     </h2>
@@ -563,8 +563,8 @@ export default function Home({ data }: PageProps<PageData>) {
                     <div className="p-8 md:p-12">
                       <div className="text-center mb-10">
                         <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-                          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                            <span className="text-gradient bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-300">
+                          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+                            <span>
                               {texts.acknowledgements_title}
                             </span>
                           </h2>
@@ -610,8 +610,8 @@ export default function Home({ data }: PageProps<PageData>) {
               <div className="container mx-auto px-6 relative z-10">
                 <div className="max-w-4xl mx-auto text-center">
                   <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-                    <h2 className="text-3xl md:text-5xl font-bold mb-6">
-                      <span className="text-gradient bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-300">
+                    <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">
+                      <span>
                         {texts.cta_section.title}
                       </span>
                     </h2>

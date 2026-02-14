@@ -8,7 +8,7 @@ export default function Header() {
           <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 via-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-xl shadow-lg shadow-cyan-500/20">
             🔧
           </div>
-          <h1 className="text-xl font-bold text-gradient bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-300">
+          <h1 className="text-xl font-bold text-white">
             {texts.title}
           </h1>
         </div>
