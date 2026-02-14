@@ -1,5 +1,3 @@
-// routes/index.tsx
-
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
 import { texts } from "../content.ts";
@@ -20,21 +18,7 @@ const cache: {
   timestamp: 0,
 };
 
-const CACHE_TTL = 15 * 60 * 1000; // 缓存有效期：15分钟 (毫秒)
-
-function StarField() {
-  const shadowsSmall = "796px 985px #fff, 1359px 385px #fff, 958px 102px #fff, 182px 1899px #fff, 1854px 1735px #fff, 1431px 1905px #fff, 1485px 339px #fff, 638px 1007px #fff, 1519px 1233px #fff, 133px 1278px #fff, 115px 120px #fff, 1632px 1475px #fff, 1075px 1222px #fff, 1289px 1253px #fff, 396px 1314px #fff, 1533px 1018px #fff, 1060px 1746px #fff, 1581px 190px #fff, 706px 1863px #fff, 103px 179px #fff";
-  const shadowsMedium = "186px 876px #fff, 1530px 1013px #fff, 421px 1879px #fff, 1191px 1584px #fff, 1845px 1889px #fff, 1582px 1438px #fff, 808px 633px #fff, 383px 443px #fff, 49px 1144px #fff, 1344px 1886px #fff, 853px 480px #fff, 747px 1196px #fff, 527px 1546px #fff, 1113px 1243px #fff, 1450px 1568px #fff";
-  const shadowsLarge = "517px 1747px #fff, 1529px 1139px #fff, 1414px 1836px #fff, 1835px 44px #fff, 1603px 448px #fff, 619px 1307px #fff, 1333px 1001px #fff, 122px 145px #fff, 1788px 1391px #fff, 357px 1163px #fff";
-
-  return (
-    <div className="absolute top-0 left-0 right-0 bottom-0 z-0 overflow-hidden">
-      <div className="absolute w-1 h-1 bg-white rounded-full animate-stars-slow top-0" style={{ boxShadow: shadowsSmall }}></div>
-      <div className="absolute w-2 h-2 bg-white rounded-full animate-stars-medium top-0" style={{ boxShadow: shadowsMedium }}></div>
-      <div className="absolute w-3 h-3 bg-white rounded-full animate-stars-fast top-0" style={{ boxShadow: shadowsLarge }}></div>
-    </div>
-  );
-}
+const CACHE_TTL = 15 * 60 * 1000;
 
 interface PageData {
   downloadUrl: string | null;
@@ -57,8 +41,7 @@ export const handler: Handlers<PageData> = {
       }
       const resp = await fetch("https://api.github.com/repos/blibilijojo/Modpack-Localizer/releases/latest", { headers: headers });
       if (!resp.ok) {
-        const errorBody = await resp.text();
-        throw new Error(`GitHub API request failed with status ${resp.status}: ${errorBody}`);
+        throw new Error(`GitHub API request failed with status ${resp.status}`);
       }
       const release = await resp.json();
       const asset = release.assets.find((a: any) => a.name.endsWith(".exe"));
@@ -107,83 +90,183 @@ export default function Home({ data }: PageProps<PageData>) {
         <title>{texts.title}</title>
         <meta name="description" content={texts.description} />
       </Head>
-      <div className="bg-gray-900 text-gray-200 min-h-screen font-sans relative" style={{ isolation: 'isolate' }}>
-        <StarField />
-        
-        <div className="relative z-10 flex flex-col min-h-screen">
+      <div className="bg-gray-950 text-gray-200 min-h-screen font-sans">
+        <div className="flex flex-col min-h-screen">
           <Header />
-          <main className="container mx-auto px-6 py-12 flex-grow">
-            <section className="text-center">
-              <h2 className="text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300 animate-fade-in-down" style={{animationDelay: "0.2s"}}>
-                Modpack Localizer Pro
-              </h2>
-              <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-400 animate-fade-in-down" style={{animationDelay: "0.4s"}}>
-                {texts.description}
-              </p>
-              <div className="mt-8 animate-fade-in-down" style={{animationDelay: "0.6s"}}>
-                <a 
-                  href={downloadUrl!} 
-                  className="inline-block bg-blue-600 text-white font-bold text-lg px-8 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-105"
-                >
-                  {texts.latest_release} {version && `(${version})`}
-                </a>
-                {updateTime && (
-                  <p className="mt-2 text-sm text-gray-500">
-                    {texts.last_updated_at}{updateTime} (UTC+8)
+          <main className="flex-grow">
+            <section className="relative overflow-hidden py-20 lg:py-32">
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-950 to-gray-900"></div>
+              <div className="absolute inset-0 opacity-30">
+                <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl"></div>
+              </div>
+              <div className="container mx-auto px-6 relative z-10">
+                <div className="max-w-4xl mx-auto text-center">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 mb-8">
+                    <span className="text-green-400">✨</span>
+                    <span className="text-sm">{texts.hero.subtitle}</span>
+                  </div>
+                  <h1 className="text-5xl lg:text-7xl font-extrabold mb-6">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-teal-400">
+                      Modpack Localizer Pro
+                    </span>
+                  </h1>
+                  <p className="text-xl lg:text-2xl text-gray-400 mb-10 max-w-3xl mx-auto leading-relaxed">
+                    {texts.description}
                   </p>
-                )}
-              </div>
-              <div className="mt-12 animate-fade-in" style={{animationDelay: "0.8s"}}>
-                 <img src="https://github.com/user-attachments/assets/dc267e88-7e56-4242-b750-babfca545a2a" alt="App Screenshot" className="rounded-lg shadow-2xl mx-auto max-w-4xl w-full" />
-              </div>
-            </section>
-            
-            <section className="mt-20">
-                <h3 className="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.feature_showcase}</h3>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                    <div className="bg-gray-800/80 backdrop-blur-sm p-4 rounded-lg animate-fade-in border border-gray-700" style={{animationDelay: "0.2s"}}>
-                        <h4 className="text-xl font-semibold mb-2 text-center">{texts.manual_workbench}</h4>
-                        <p className="text-sm text-gray-400 mb-4 text-center">{texts.manual_workbench_desc}</p>
-                        <img src="https://github.com/user-attachments/assets/81e8a99e-cdd3-4442-8bd8-649da76b7675" alt="Manual Translation Workbench" className="rounded-md shadow-lg"/>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                    <a 
+                      href={downloadUrl!} 
+                      className="group inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold text-lg px-8 py-4 rounded-xl shadow-lg shadow-blue-600/25 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                      </svg>
+                      {texts.latest_release} {version && `(${version})`}
+                    </a>
+                    <a
+                      href={texts.github_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex items-center gap-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold text-lg px-8 py-4 rounded-xl border border-gray-700 transition-all duration-300 hover:-translate-y-1"
+                    >
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                      </svg>
+                      {texts.view_on_github}
+                    </a>
+                  </div>
+                  {updateTime && (
+                    <p className="text-sm text-gray-500">
+                      {texts.last_updated_at}{updateTime} (UTC+8)
+                    </p>
+                  )}
+                  <div className="mt-16">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-cyan-500/20 to-blue-500/20 rounded-2xl blur-xl"></div>
+                      <img 
+                        src="/static/翻译控制台.png" 
+                        alt="Modpack Localizer Pro 主界面" 
+                        className="relative rounded-2xl shadow-2xl border border-gray-800 max-w-5xl w-full mx-auto"
+                      />
                     </div>
-                    <div className="bg-gray-800/80 backdrop-blur-sm p-4 rounded-lg animate-fade-in border border-gray-700" style={{animationDelay: "0.4s"}}>
-                        <h4 className="text-xl font-semibold mb-2 text-center">{texts.dict_search}</h4>
-                        <p className="text-sm text-gray-400 mb-4 text-center">{texts.dict_search_desc}</p>
-                        <img src="https://github.com/user-attachments/assets/e78dee9a-92d8-44c2-b3f3-20cc744e81da" alt="Community Dictionary Search" className="rounded-md shadow-lg"/>
-                    </div>
+                  </div>
                 </div>
+              </div>
             </section>
 
-            <section className="mt-20">
-                <h3 className="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.features_title}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {texts.features.map((feature, i) => (
-                    <div className="animate-fade-in" style={{ animationDelay: `${i * 0.1 + 0.2}s` }}> {/* 调整了延迟时间 */}
-                      <div className="h-full bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/10 transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:-translate-y-2">
-                        <h4 className="text-xl font-semibold text-blue-400 mb-2">{feature.name}</h4>
-                        <p className="text-gray-400">{feature.desc}</p>
+            <section className="py-20">
+              <div className="container mx-auto px-6">
+                <h2 className="text-4xl font-bold text-center mb-4">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
+                    {texts.feature_showcase}
+                  </span>
+                </h2>
+                <p className="text-center text-gray-400 mb-16 max-w-2xl mx-auto text-lg">
+                  四大核心功能，让汉化工作事半功倍
+                </p>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                  {texts.showcase_items.map((item, i) => (
+                    <div 
+                      key={i}
+                      className="group bg-gray-900/50 backdrop-blur-sm rounded-2xl border border-gray-800 overflow-hidden transition-all duration-500 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10"
+                    >
+                      <div className="relative overflow-hidden">
+                        <img 
+                          src={item.image} 
+                          alt={item.title} 
+                          className="w-full transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60"></div>
+                      </div>
+                      <div className="p-6">
+                        <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
+                          {item.title}
+                        </h3>
+                        <p className="text-gray-400">
+                          {item.desc}
+                        </p>
                       </div>
                     </div>
                   ))}
                 </div>
+              </div>
             </section>
 
-            <section className="mt-20">
-                <h3 className="text-3xl font-bold text-center mb-10 animate-fade-in">{texts.acknowledgements_title}</h3>
-                <p className="max-w-3xl mx-auto text-center text-gray-400 animate-fade-in" style={{animationDelay: "0.2s"}}>
-                    {texts.acknowledgements_intro}
+            <section className="py-20 bg-gray-900/50">
+              <div className="container mx-auto px-6">
+                <h2 className="text-4xl font-bold text-center mb-4">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
+                    {texts.features_title}
+                  </span>
+                </h2>
+                <p className="text-center text-gray-400 mb-16 max-w-2xl mx-auto text-lg">
+                  丰富的功能特性，满足各种汉化需求
                 </p>
-                <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    {texts.acknowledgements_list.map((ack, i) => (
-                        <div className="animate-fade-in" style={{ animationDelay: `${i * 0.1 + 0.4}s` }}> {/* 调整了延迟时间 */}
-                            <div className="h-full bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/10 transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:-translate-y-1 text-center md:text-left">
-                                <h4 className="text-xl font-semibold text-blue-400 mb-2">
-                                    <a href={ack.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                                        {ack.name}
-                                    </a>
-                                    {ack.by && <span className="text-sm text-gray-500 font-normal"> by {ack.by}</span>} {/* 显示 by 字段 */}
-                                </h4>
-                                <p className="text-gray-400">{ack.desc}</p>
-                                {ack.copyright && ( // 如果有版权声明则显示
-                                  <p className="mt-2 text-xs text-gray-500" dangerouslySetInnerHTML={{ __html: ack.copyright }}></p>
-                    
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                  {texts.features.map((feature, i) => (
+                    <div 
+                      key={i}
+                      className="group bg-gray-800/50 backdrop-blur-sm p-6 rounded-2xl border border-gray-700 transition-all duration-300 hover:border-blue-500/50 hover:bg-gray-800 hover:-translate-y-2 hover:shadow-xl"
+                    >
+                      <div className="text-4xl mb-4">{feature.icon}</div>
+                      <h3 className="text-lg font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
+                        {feature.name}
+                      </h3>
+                      <p className="text-gray-400 text-sm leading-relaxed">
+                        {feature.desc}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <section className="py-20">
+              <div className="container mx-auto px-6">
+                <h2 className="text-4xl font-bold text-center mb-4">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
+                    {texts.acknowledgements_title}
+                  </span>
+                </h2>
+                <p className="text-center text-gray-400 mb-12 max-w-3xl mx-auto text-lg">
+                  {texts.acknowledgements_intro}
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                  {texts.acknowledgements_list.map((ack, i) => (
+                    <div 
+                      key={i}
+                      className="bg-gray-900/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-800"
+                    >
+                      <h3 className="text-xl font-bold mb-2">
+                        <a 
+                          href={ack.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-400 hover:text-blue-300 transition-colors"
+                        >
+                          {ack.name}
+                        </a>
+                        {ack.by && <span className="text-gray-500 font-normal text-sm ml-2">by {ack.by}</span>}
+                      </h3>
+                      <p className="text-gray-400 mb-4">
+                        {ack.desc}
+                      </p>
+                      {ack.copyright && (
+                        <p 
+                          className="text-xs text-gray-500" 
+                          dangerouslySetInnerHTML={{ __html: ack.copyright }}
+                        ></p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </main>
+          <Footer />
+        </div>
+      </div>
+    </>
+  );
+}
