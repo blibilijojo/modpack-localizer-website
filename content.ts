@@ -19,8 +19,11 @@ export const texts = {
     {
       id: "console",
       title: "NEURAL TRANSLATION ENGINE",
-      subtitle: "智能翻译决策引擎",
-      desc: "按优先级顺序填充译文：模组自带 > 个人词典 > 第三方汉化包 > 社区词典，最大限度利用高质量人工翻译资源。",
+      subtitle: "翻译控制台",
+      desc: "专门的 AI 翻译控制界面，支持一键 AI 翻译，快速填充未翻译条目。可自定义 API 端点、Prompt、模型、并发线程数等高级参数。智能批量翻译，支持自定义批次大小和超时设置。翻译结果缓存，避免重复翻译。多密钥轮换和自动冷却机制，有效应对 API 速率限制。",
+
+
+
       image: "/api/proxy?url=https://raw.githubusercontent.com/blibilijojo/modpack-localizer-website/refs/heads/main/%E5%8F%82%E8%80%83/%E7%BF%BB%E8%AF%91%E6%8E%A7%E5%88%B6%E5%8F%B0.png",
       icon: "🧠",
       color: "cyan",
