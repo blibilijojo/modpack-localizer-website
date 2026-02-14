@@ -101,16 +101,6 @@ const ColorGlow: Record<string, string> = {
   pink: "shadow-pink-500/20",
 };
 
-const ColorBorder: Record<string, string> = {
-  cyan: "border-cyan-500/50",
-  purple: "border-purple-500/50",
-  blue: "border-blue-500/50",
-  green: "border-emerald-500/50",
-  yellow: "border-yellow-500/50",
-  orange: "border-orange-500/50",
-  pink: "border-pink-500/50",
-};
-
 export default function Home({ data }: PageProps<PageData>) {
   const { downloadUrl, version, updateTime } = data;
 
@@ -120,6 +110,19 @@ export default function Home({ data }: PageProps<PageData>) {
         <title>{texts.title}</title>
         <meta name="description" content={texts.description} />
         <style>{`
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          
+          html, body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: sans-serif;
+            overflow-x: hidden;
+          }
+          
           @keyframes pulse-glow {
             0%, 100% {
               box-shadow: 0 0 20px rgba(6, 182, 212, 0.3), 0 0 40px rgba(6, 182, 212, 0.1);
@@ -149,38 +152,8 @@ export default function Home({ data }: PageProps<PageData>) {
             }
           }
           
-          @keyframes slide-in-left {
-            from {
-              opacity: 0;
-              transform: translateX(-30px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-          
-          @keyframes slide-in-right {
-            from {
-              opacity: 0;
-              transform: translateX(30px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-          
           .animate-slide-in-up {
             animation: slide-in-up 0.8s ease-out forwards;
-          }
-          
-          .animate-slide-in-left {
-            animation: slide-in-left 0.8s ease-out forwards;
-          }
-          
-          .animate-slide-in-right {
-            animation: slide-in-right 0.8s ease-out forwards;
           }
           
           .animate-float {
@@ -203,37 +176,16 @@ export default function Home({ data }: PageProps<PageData>) {
               linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px);
             background-size: 20px 20px;
           }
-          
-          .scrollbar-thin {
-            scrollbar-width: thin;
-          }
-          
-          .scrollbar-thin::-webkit-scrollbar {
-            width: 6px;
-          }
-          
-          .scrollbar-thin::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.5);
-          }
-          
-          .scrollbar-thin::-webkit-scrollbar-thumb {
-            background: rgba(6, 182, 212, 0.5);
-            border-radius: 3px;
-          }
-          
-          .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-            background: rgba(6, 182, 212, 0.8);
-          }
         `}</style>
       </Head>
       <div className="bg-gray-950 text-gray-100 min-h-screen font-sans overflow-x-hidden">
         <div className="fixed inset-0 bg-grid pointer-events-none opacity-30"></div>
-        <div className="fixed inset-0 bg-gradient-to-br from-gray-950 via-transparent to-gray-950 pointer-events-none"></div>
+        <div className="fixed inset-0 bg-gradient-to-br from-gray-950 via-blue-950/20 to-gray-950 pointer-events-none"></div>
         <div className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500 pointer-events-none"></div>
         
         <div className="relative z-10 flex flex-col min-h-screen">
           <Header />
-          <main className="flex-grow">
+          <main className="flex-grow pt-20">
             <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-20">
               <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-blue-950/20 to-gray-950"></div>
               <div className="absolute inset-0 opacity-40">
