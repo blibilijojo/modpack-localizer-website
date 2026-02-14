@@ -178,7 +178,7 @@ export default function Home({ data }: PageProps<PageData>) {
           }
         `}</style>
       </Head>
-      <div className="bg-gray-950 text-gray-100 min-h-screen font-sans overflow-x-hidden">
+      <div className="bg-gray-950 text-white min-h-screen font-sans overflow-x-hidden">
         <div className="fixed inset-0 bg-grid pointer-events-none opacity-30"></div>
         <div className="fixed inset-0 bg-gradient-to-br from-gray-950 via-blue-950/20 to-gray-950 pointer-events-none"></div>
         <div className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500 pointer-events-none"></div>
@@ -197,7 +197,7 @@ export default function Home({ data }: PageProps<PageData>) {
                   <div className="animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
                     <div className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900/80 backdrop-blur-sm rounded-full border border-cyan-500/30 mb-8">
                       <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
-                      <span className="text-sm font-mono text-cyan-400 tracking-wider">{texts.hero.subtitle}</span>
+                      <span className="text-sm font-mono text-cyan-300 tracking-wider">{texts.hero.subtitle}</span>
                     </div>
                   </div>
                   <div className="animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
@@ -208,7 +208,7 @@ export default function Home({ data }: PageProps<PageData>) {
                     </h1>
                   </div>
                   <div className="animate-slide-in-up" style={{ animationDelay: '0.3s' }}>
-                    <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+                    <p className="text-xl md:text-2xl text-gray-200 mb-12 max-w-3xl mx-auto leading-relaxed">
                       {texts.hero.description}
                     </p>
                   </div>
@@ -242,8 +242,8 @@ export default function Home({ data }: PageProps<PageData>) {
                   </div>
                   {updateTime && (
                     <div className="animate-slide-in-up" style={{ animationDelay: '0.5s' }}>
-                      <p className="text-sm text-gray-500 font-mono">
-                        <span className="text-cyan-500">[SYSTEM]</span> {texts.last_updated_at}{updateTime} (UTC+8)
+                      <p className="text-sm text-gray-300 font-mono">
+                        <span className="text-cyan-400">[SYSTEM]</span> {texts.last_updated_at}{updateTime} (UTC+8)
                       </p>
                     </div>
                   )}
@@ -260,7 +260,7 @@ export default function Home({ data }: PageProps<PageData>) {
                 </div>
               </div>
               <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-                <svg className="w-6 h-6 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
                 </svg>
               </div>
@@ -278,7 +278,7 @@ export default function Home({ data }: PageProps<PageData>) {
                     </h2>
                   </div>
                   <div className="animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
-                    <p className="text-gray-400 text-lg">
+                    <p className="text-gray-200 text-lg">
                       四大核心功能模块，为您的 Minecraft 整合包汉化工作提供全方位支持
                     </p>
                   </div>
@@ -298,11 +298,11 @@ export default function Home({ data }: PageProps<PageData>) {
                             {item.icon}
                           </div>
                           <div>
-                            <h3 className="text-sm font-mono text-cyan-400 tracking-wider mb-1">{item.title}</h3>
+                            <h3 className="text-sm font-mono text-cyan-300 tracking-wider mb-1">{item.title}</h3>
                             <h4 className="text-xl font-bold text-white">{item.subtitle}</h4>
                           </div>
                         </div>
-                        <p className="text-gray-400 mb-6 leading-relaxed">
+                        <p className="text-gray-300 mb-6 leading-relaxed">
                           {item.desc}
                         </p>
                         <div className="relative overflow-hidden rounded-xl group-hover:scale-105 transition-transform duration-500">
@@ -310,7 +310,7 @@ export default function Home({ data }: PageProps<PageData>) {
                           <img 
                             src={item.image} 
                             alt={item.title} 
-                            className="relative rounded-xl border border-gray-800 w-full"
+                            className="relative rounded-xl border border-gray-700 w-full"
                           />
                         </div>
                       </div>
@@ -332,7 +332,7 @@ export default function Home({ data }: PageProps<PageData>) {
                     </h2>
                   </div>
                   <div className="animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
-                    <p className="text-gray-400 text-lg">
+                    <p className="text-gray-200 text-lg">
                       先进的功能特性，让汉化工作更加智能、高效、可靠
                     </p>
                   </div>
@@ -351,7 +351,7 @@ export default function Home({ data }: PageProps<PageData>) {
                       <h3 className="text-lg font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors">
                         {feature.name}
                       </h3>
-                      <p className="text-gray-400 text-sm leading-relaxed">
+                      <p className="text-gray-300 text-sm leading-relaxed">
                         {feature.desc}
                       </p>
                     </div>
@@ -376,7 +376,7 @@ export default function Home({ data }: PageProps<PageData>) {
                           </h2>
                         </div>
                         <div className="animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
-                          <p className="text-gray-400">
+                          <p className="text-gray-200">
                             {texts.acknowledgements_intro}
                           </p>
                         </div>
@@ -397,9 +397,9 @@ export default function Home({ data }: PageProps<PageData>) {
                               >
                                 {ack.name}
                               </a>
-                              {ack.by && <span className="text-gray-500 font-normal text-sm ml-2">by {ack.by}</span>}
+                              {ack.by && <span className="text-gray-400 font-normal text-sm ml-2">by {ack.by}</span>}
                             </h3>
-                            <p className="text-gray-400 text-sm leading-relaxed">
+                            <p className="text-gray-300 text-sm leading-relaxed">
                               {ack.desc}
                             </p>
                           </div>
@@ -426,7 +426,7 @@ export default function Home({ data }: PageProps<PageData>) {
                     </h2>
                   </div>
                   <div className="animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
-                    <p className="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">
+                    <p className="text-gray-200 text-lg mb-10 max-w-2xl mx-auto">
                       {texts.cta_section.subtitle}
                     </p>
                   </div>
