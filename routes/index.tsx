@@ -82,23 +82,23 @@ export const handler: Handlers<PageData> = {
 };
 
 const ColorMap: Record<string, string> = {
-  cyan: "from-cyan-500 via-blue-500 to-cyan-500",
-  purple: "from-purple-500 via-pink-500 to-purple-500",
-  blue: "from-blue-500 via-cyan-500 to-blue-500",
-  green: "from-emerald-500 via-blue-500 to-emerald-500",
-  yellow: "from-yellow-500 via-orange-500 to-yellow-500",
-  orange: "from-orange-500 via-red-500 to-orange-500",
-  pink: "from-pink-500 via-purple-500 to-pink-500",
+  cyan: "from-blue-500 via-blue-400 to-blue-500",
+  purple: "from-indigo-500 via-purple-400 to-indigo-500",
+  blue: "from-blue-600 via-blue-400 to-blue-600",
+  green: "from-emerald-500 via-green-400 to-emerald-500",
+  yellow: "from-amber-500 via-yellow-400 to-amber-500",
+  orange: "from-orange-500 via-amber-400 to-orange-500",
+  pink: "from-rose-500 via-pink-400 to-rose-500",
 };
 
 const ColorGlow: Record<string, string> = {
-  cyan: "shadow-cyan-500/20",
-  purple: "shadow-purple-500/20",
+  cyan: "shadow-blue-500/20",
+  purple: "shadow-indigo-500/20",
   blue: "shadow-blue-500/20",
   green: "shadow-emerald-500/20",
-  yellow: "shadow-yellow-500/20",
+  yellow: "shadow-amber-500/20",
   orange: "shadow-orange-500/20",
-  pink: "shadow-pink-500/20",
+  pink: "shadow-rose-500/20",
 };
 
 export default function Home({ data }: PageProps<PageData>) {
@@ -117,34 +117,16 @@ export default function Home({ data }: PageProps<PageData>) {
           }
           
           html, body {
-            background-color: #020617;
-            color: #f8fafc;
+            background-color: #f8fafc;
+            color: #1e293b;
             font-family: sans-serif;
             overflow-x: hidden;
           }
           
-          @keyframes pulse-glow {
-            0%, 100% {
-              box-shadow: 0 0 20px rgba(6, 182, 212, 0.3), 0 0 40px rgba(6, 182, 212, 0.1);
-            }
-            50% {
-              box-shadow: 0 0 30px rgba(6, 182, 212, 0.4), 0 0 60px rgba(6, 182, 212, 0.2);
-            }
-          }
-          
-          @keyframes float {
-            0%, 100% {
-              transform: translateY(0px);
-            }
-            50% {
-              transform: translateY(-10px);
-            }
-          }
-          
-          @keyframes slide-in-up {
+          @keyframes fade-in {
             from {
               opacity: 0;
-              transform: translateY(30px);
+              transform: translateY(20px);
             }
             to {
               opacity: 1;
@@ -152,16 +134,21 @@ export default function Home({ data }: PageProps<PageData>) {
             }
           }
           
-          .animate-slide-in-up {
-            animation: slide-in-up 0.8s ease-out forwards;
+          @keyframes subtle-float {
+            0%, 100% {
+              transform: translateY(0px);
+            }
+            50% {
+              transform: translateY(-5px);
+            }
           }
           
-          .animate-float {
-            animation: float 6s ease-in-out infinite;
+          .animate-fade-in {
+            animation: fade-in 0.6s ease-out forwards;
           }
           
-          .animate-pulse-glow {
-            animation: pulse-glow 3s ease-in-out infinite;
+          .animate-subtle-float {
+            animation: subtle-float 8s ease-in-out infinite;
           }
           
           .text-gradient {
@@ -170,115 +157,100 @@ export default function Home({ data }: PageProps<PageData>) {
             -webkit-text-fill-color: transparent;
           }
           
-          .bg-grid {
+          .bg-pattern {
             background-image: 
-              linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
+              radial-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+              radial-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
           }
         `}</style>
       </Head>
-      <div className="bg-gray-950 text-white min-h-screen font-sans overflow-x-hidden">
-        <div className="fixed inset-0 bg-grid pointer-events-none opacity-30"></div>
-        <div className="fixed inset-0 bg-gradient-to-br from-gray-950 via-blue-950/20 to-gray-950 pointer-events-none"></div>
-        <div className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500 pointer-events-none"></div>
+      <div className="bg-gray-50 text-gray-900 min-h-screen font-sans overflow-x-hidden">
+        <div className="fixed inset-0 bg-pattern pointer-events-none opacity-50"></div>
+        <div className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-500 pointer-events-none"></div>
         
         <div className="relative z-10 flex flex-col min-h-screen">
           <Header />
           <main className="flex-grow pt-20">
-            <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-20">
-              <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-blue-950/20 to-gray-950"></div>
-              <div className="absolute inset-0 opacity-40">
-                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
-                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-              </div>
+            <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden py-20">
               <div className="container mx-auto px-6 relative z-10">
                 <div className="max-w-5xl mx-auto text-center">
-                  <div className="animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
-                    <div className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900/80 backdrop-blur-sm rounded-full border border-cyan-500/30 mb-8">
-                      <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
-                      <span className="text-sm font-mono text-cyan-300 tracking-wider">{texts.hero.subtitle}</span>
+                  <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
+                    <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/90 backdrop-blur-sm rounded-full border border-blue-200 mb-8 shadow-sm">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                      <span className="text-sm font-mono text-blue-600 tracking-wider">{texts.hero.subtitle}</span>
                     </div>
                   </div>
-                  <div className="animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
-                    <h1 className="text-6xl md:text-8xl font-extrabold mb-6 leading-tight">
-                      <span className="block text-gradient bg-gradient-to-r from-cyan-300 via-blue-300 to-purple-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.5)]">
+                  <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                    <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                      <span className="block text-gradient bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600">
                         {texts.hero.tagline}
                       </span>
                     </h1>
                   </div>
-                  <div className="animate-slide-in-up" style={{ animationDelay: '0.3s' }}>
-                    <p className="text-xl md:text-2xl text-gray-200 mb-12 max-w-3xl mx-auto leading-relaxed">
+                  <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
+                    <p className="text-lg md:text-xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
                       {texts.hero.description}
                     </p>
                   </div>
-                  <div className="animate-slide-in-up" style={{ animationDelay: '0.4s' }}>
+                  <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
                       <a 
                         href={downloadUrl!} 
-                        className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gray-900 rounded-xl border border-cyan-500/50 overflow-hidden transition-all duration-500 hover:border-cyan-500 hover:shadow-lg hover:shadow-cyan-500/20"
+                        className="group inline-flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-xl transition-all duration-300 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/20"
                       >
-                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-transparent to-cyan-500/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-                        <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                         </svg>
-                        <span className="font-bold text-lg text-white relative z-10">{texts.latest_release} {version && `(${version})`}</span>
+                        <span className="font-bold text-lg">{texts.latest_release} {version && `(${version})`}</span>
                       </a>
                       <a
                         href={texts.github_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gray-900 rounded-xl border border-purple-500/50 overflow-hidden transition-all duration-500 hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/20"
+                        className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-gray-800 rounded-xl border border-gray-200 transition-all duration-300 hover:bg-gray-50 hover:shadow-lg hover:shadow-gray-200"
                       >
-                        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 via-transparent to-purple-500/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-                        <svg className="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                         </svg>
-                        <span className="font-bold text-lg text-white relative z-10">{texts.view_on_github}</span>
+                        <span className="font-bold text-lg">{texts.view_on_github}</span>
                       </a>
                     </div>
                   </div>
                   {updateTime && (
-                    <div className="animate-slide-in-up" style={{ animationDelay: '0.5s' }}>
-                      <p className="text-sm text-gray-300 font-mono">
-                        <span className="text-cyan-400">[SYSTEM]</span> {texts.last_updated_at}{updateTime} (UTC+8)
+                    <div className="animate-fade-in" style={{ animationDelay: '0.5s' }}>
+                      <p className="text-sm text-gray-500 font-mono">
+                        <span className="text-blue-600">[SYSTEM]</span> {texts.last_updated_at}{updateTime} (UTC+8)
                       </p>
                     </div>
                   )}
                 </div>
-                <div className="mt-16 animate-float">
+                <div className="mt-16 animate-subtle-float">
                   <div className="relative max-w-5xl mx-auto">
-                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-cyan-500/20 rounded-2xl blur-xl animate-pulse-glow"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-blue-500/10 rounded-2xl blur-xl animate-pulse"></div>
                     <img 
                       src={texts.showcase_items[0].image} 
                       alt="Modpack Localizer Pro Interface" 
-                      className="relative rounded-2xl shadow-2xl border border-cyan-500/30 max-w-full mx-auto"
+                      className="relative rounded-2xl shadow-lg border border-blue-100 max-w-full mx-auto"
                     />
                   </div>
                 </div>
               </div>
-              <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-                <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-                </svg>
-              </div>
             </section>
 
-            <section className="py-24 relative">
-              <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-blue-950/10 to-gray-950"></div>
+            <section className="py-24 relative bg-white">
               <div className="container mx-auto px-6 relative z-10">
                 <div className="max-w-3xl mx-auto text-center mb-16">
-                  <div className="animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
+                  <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
                     <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                      <span className="text-gradient bg-gradient-to-r from-cyan-400 to-purple-400">
+                      <span className="text-gradient bg-gradient-to-r from-blue-600 to-indigo-600">
                         {texts.feature_showcase}
                       </span>
                     </h2>
                   </div>
-                  <div className="animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
-                    <p className="text-gray-200 text-lg">
+                  <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                    <p className="text-gray-600 text-lg">
                       四大核心功能模块，为您的 Minecraft 整合包汉化工作提供全方位支持
                     </p>
                   </div>
@@ -287,30 +259,29 @@ export default function Home({ data }: PageProps<PageData>) {
                   {texts.showcase_items.map((item, i) => (
                     <div 
                       key={item.id}
-                      className={`group relative bg-gray-900/80 backdrop-blur-sm rounded-2xl border border-gray-800 overflow-hidden transition-all duration-500 hover:border-cyan-500/50 hover:shadow-xl hover:${ColorGlow[item.color] || 'shadow-cyan-500/20'} hover:-translate-y-2 animate-slide-in-up`}
+                      className={`group relative bg-white rounded-2xl border border-gray-200 overflow-hidden transition-all duration-500 hover:border-blue-300 hover:shadow-xl hover:${ColorGlow[item.color] || 'shadow-blue-500/20'} hover:-translate-y-2 animate-fade-in`}
                       style={{ animationDelay: `${0.2 + i * 0.1}s` }}
                     >
-                      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-transparent to-gray-900 opacity-80 pointer-events-none"></div>
                       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${ColorMap[item.color] || ColorMap.cyan}"></div>
                       <div className="p-8">
                         <div className="flex items-center gap-3 mb-6">
-                          <div className={`w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center text-2xl border border-cyan-500/30 ${ColorGlow[item.color] || 'shadow-cyan-500/20'}`}>
+                          <div className={`w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center text-2xl border border-blue-100 ${ColorGlow[item.color] || 'shadow-blue-500/20'}`}>
                             {item.icon}
                           </div>
                           <div>
-                            <h3 className="text-sm font-mono text-cyan-300 tracking-wider mb-1">{item.title}</h3>
-                            <h4 className="text-xl font-bold text-white">{item.subtitle}</h4>
+                            <h3 className="text-sm font-mono text-blue-600 tracking-wider mb-1">{item.title}</h3>
+                            <h4 className="text-xl font-bold text-gray-900">{item.subtitle}</h4>
                           </div>
                         </div>
-                        <p className="text-gray-300 mb-6 leading-relaxed">
+                        <p className="text-gray-600 mb-6 leading-relaxed">
                           {item.desc}
                         </p>
                         <div className="relative overflow-hidden rounded-xl group-hover:scale-105 transition-transform duration-500">
-                          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-cyan-500/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-blue-500/10 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                           <img 
                             src={item.image} 
                             alt={item.title} 
-                            className="relative rounded-xl border border-gray-700 w-full"
+                            className="relative rounded-xl border border-gray-100 w-full shadow-sm"
                           />
                         </div>
                       </div>
@@ -320,19 +291,18 @@ export default function Home({ data }: PageProps<PageData>) {
               </div>
             </section>
 
-            <section className="py-24 relative">
-              <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-purple-950/10 to-gray-950"></div>
+            <section className="py-24 relative bg-gray-50">
               <div className="container mx-auto px-6 relative z-10">
                 <div className="max-w-3xl mx-auto text-center mb-16">
-                  <div className="animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
+                  <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
                     <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                      <span className="text-gradient bg-gradient-to-r from-cyan-400 to-purple-400">
+                      <span className="text-gradient bg-gradient-to-r from-blue-600 to-indigo-600">
                         {texts.features_title}
                       </span>
                     </h2>
                   </div>
-                  <div className="animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
-                    <p className="text-gray-200 text-lg">
+                  <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                    <p className="text-gray-600 text-lg">
                       先进的功能特性，让汉化工作更加智能、高效、可靠
                     </p>
                   </div>
@@ -341,17 +311,17 @@ export default function Home({ data }: PageProps<PageData>) {
                   {texts.features.map((feature, i) => (
                     <div 
                       key={i}
-                      className={`group relative bg-gray-900/60 backdrop-blur-sm rounded-xl border border-gray-800 p-6 transition-all duration-500 hover:border-cyan-500/50 hover:shadow-lg hover:${ColorGlow[feature.color] || 'shadow-cyan-500/20'} hover:-translate-y-1 animate-slide-in-up`}
+                      className={`group relative bg-white rounded-xl border border-gray-200 p-6 transition-all duration-500 hover:border-blue-300 hover:shadow-lg hover:${ColorGlow[feature.color] || 'shadow-blue-500/20'} hover:-translate-y-1 animate-fade-in`}
                       style={{ animationDelay: `${0.2 + i * 0.05}s` }}
                     >
                       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${ColorMap[feature.color] || ColorMap.cyan}"></div>
-                      <div className={`w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-xl mb-4 border border-cyan-500/30 ${ColorGlow[feature.color] || 'shadow-cyan-500/20'}`}>
+                      <div className={`w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-xl mb-4 border border-blue-100 ${ColorGlow[feature.color] || 'shadow-blue-500/20'}`}>
                         {feature.icon}
                       </div>
-                      <h3 className="text-lg font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors">
+                      <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
                         {feature.name}
                       </h3>
-                      <p className="text-gray-300 text-sm leading-relaxed">
+                      <p className="text-gray-600 text-sm leading-relaxed">
                         {feature.desc}
                       </p>
                     </div>
@@ -360,23 +330,22 @@ export default function Home({ data }: PageProps<PageData>) {
               </div>
             </section>
 
-            <section className="py-24 relative">
-              <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-blue-950/10 to-gray-950"></div>
+            <section className="py-24 relative bg-white">
               <div className="container mx-auto px-6 relative z-10">
                 <div className="max-w-4xl mx-auto">
-                  <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl border border-cyan-500/30 overflow-hidden">
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500"></div>
+                  <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-lg">
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-500"></div>
                     <div className="p-8 md:p-12">
                       <div className="text-center mb-10">
-                        <div className="animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
+                        <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
                           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                            <span className="text-gradient bg-gradient-to-r from-cyan-400 to-purple-400">
+                            <span className="text-gradient bg-gradient-to-r from-blue-600 to-indigo-600">
                               {texts.acknowledgements_title}
                             </span>
                           </h2>
                         </div>
-                        <div className="animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
-                          <p className="text-gray-200">
+                        <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                          <p className="text-gray-600">
                             {texts.acknowledgements_intro}
                           </p>
                         </div>
@@ -385,7 +354,7 @@ export default function Home({ data }: PageProps<PageData>) {
                         {texts.acknowledgements_list.map((ack, i) => (
                           <div 
                             key={i}
-                            className="group bg-gray-800/80 rounded-xl border border-gray-700 p-6 transition-all duration-300 hover:border-cyan-500/50 hover:shadow-lg hover:shadow-cyan-500/10 animate-slide-in-up"
+                            className="group bg-gray-50 rounded-xl border border-gray-200 p-6 transition-all duration-300 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/10 animate-fade-in"
                             style={{ animationDelay: `${0.3 + i * 0.1}s` }}
                           >
                             <h3 className="text-lg font-bold mb-2">
@@ -393,13 +362,13 @@ export default function Home({ data }: PageProps<PageData>) {
                                 href={ack.url} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
-                                className="text-cyan-400 hover:text-cyan-300 transition-colors"
+                                className="text-blue-600 hover:text-blue-700 transition-colors"
                               >
                                 {ack.name}
                               </a>
-                              {ack.by && <span className="text-gray-400 font-normal text-sm ml-2">by {ack.by}</span>}
+                              {ack.by && <span className="text-gray-500 font-normal text-sm ml-2">by {ack.by}</span>}
                             </h3>
-                            <p className="text-gray-300 text-sm leading-relaxed">
+                            <p className="text-gray-600 text-sm leading-relaxed">
                               {ack.desc}
                             </p>
                           </div>
@@ -411,36 +380,30 @@ export default function Home({ data }: PageProps<PageData>) {
               </div>
             </section>
 
-            <section className="py-24 relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-blue-950/20 to-gray-950"></div>
-              <div className="absolute inset-0 opacity-40">
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
-              </div>
+            <section className="py-24 relative bg-gray-50">
               <div className="container mx-auto px-6 relative z-10">
                 <div className="max-w-4xl mx-auto text-center">
-                  <div className="animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
+                  <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
                     <h2 className="text-3xl md:text-5xl font-bold mb-6">
-                      <span className="text-gradient bg-gradient-to-r from-cyan-400 via-purple-400 to-cyan-400">
+                      <span className="text-gradient bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600">
                         {texts.cta_section.title}
                       </span>
                     </h2>
                   </div>
-                  <div className="animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
-                    <p className="text-gray-200 text-lg mb-10 max-w-2xl mx-auto">
+                  <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                    <p className="text-gray-600 text-lg mb-10 max-w-2xl mx-auto">
                       {texts.cta_section.subtitle}
                     </p>
                   </div>
-                  <div className="animate-slide-in-up" style={{ animationDelay: '0.3s' }}>
+                  <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
                     <a 
                       href={downloadUrl!} 
-                      className="group relative inline-flex items-center gap-3 px-10 py-4 bg-gray-900 rounded-xl border border-cyan-500/50 overflow-hidden transition-all duration-500 hover:border-cyan-500 hover:shadow-xl hover:shadow-cyan-500/20"
+                      className="group inline-flex items-center gap-3 px-10 py-4 bg-blue-600 text-white rounded-xl transition-all duration-500 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/20"
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-transparent to-cyan-500/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-                      <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                       </svg>
-                      <span className="font-bold text-xl text-white relative z-10">{texts.cta_section.button}</span>
+                      <span className="font-bold text-xl">{texts.cta_section.button}</span>
                     </a>
                   </div>
                 </div>
