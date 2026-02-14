@@ -17,22 +17,22 @@ export const texts = {
     {
       title: "翻译控制台",
       desc: "三种工作流任你选择：模组汉化、Modrinth搜索、任务汉化，满足各种汉化需求。",
-      image: "/static/翻译控制台.png",
+      image: "https://raw.githubusercontent.com/blibilijojo/modpack-localizer-website/refs/heads/main/%E5%8F%82%E8%80%83/%E7%BF%BB%E8%AF%91%E6%8E%A7%E5%88%B6%E5%8F%B0.png",
     },
     {
       title: "交互式翻译工作台",
       desc: "三栏式专业布局，一键 AI 翻译，项目存读档，撤销/重做，快捷键支持，让翻译工作更高效。",
-      image: "/static/翻译工作台.png",
+      image: "https://raw.githubusercontent.com/blibilijojo/modpack-localizer-website/refs/heads/main/%E5%8F%82%E8%80%83/%E7%BF%BB%E8%AF%91%E5%B7%A5%E4%BD%9C%E5%8F%B0.png",
     },
     {
       title: "社区词典查询",
       desc: "内置强大的词典查询工具，支持原文/译文双向模糊搜索，快速找到参考翻译。",
-      image: "/static/社区词典查询.png",
+      image: "https://raw.githubusercontent.com/blibilijojo/modpack-localizer-website/refs/heads/main/%E5%8F%82%E8%80%83/%E7%A4%BE%E5%8C%BA%E8%AF%8D%E5%85%B8%E6%9F%A5%E8%AF%A2.png",
     },
     {
       title: "GitHub 集成",
       desc: "直接上传翻译到 GitHub 仓库，自动创建 Pull Request，分支管理和文件上传一应俱全。",
-      image: "/static/GitHub上传.png",
+      image: "https://raw.githubusercontent.com/blibilijojo/modpack-localizer-website/refs/heads/main/%E5%8F%82%E8%80%83/GitHub%E4%B8%8A%E4%BC%A0.png",
     },
   ],
 
