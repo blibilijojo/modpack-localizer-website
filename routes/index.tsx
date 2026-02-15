@@ -381,7 +381,129 @@ export default function Home({ data }: PageProps<PageData>) {
               0 0 30px rgba(6, 182, 212, 0.4),
               0 0 45px rgba(6, 182, 212, 0.2);
           }
+          
+          #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+          }
+          
+          .particle {
+            position: absolute;
+            background: rgba(6, 182, 212, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            transition: all 0.3s ease;
+          }
         `}</style>
+        <script>{`
+          document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.createElement('div');
+            particlesContainer.id = 'particles-js';
+            document.body.appendChild(particlesContainer);
+            
+            const particles = [];
+            const particleCount = 50;
+            
+            // Create particles
+            for (let i = 0; i < particleCount; i++) {
+              createParticle();
+            }
+            
+            function createParticle() {
+              const particle = document.createElement('div');
+              particle.className = 'particle';
+              
+              // Random size
+              const size = Math.random() * 5 + 1;
+              particle.style.width = size + 'px';
+              particle.style.height = size + 'px';
+              
+              // Random position
+              particle.style.left = Math.random() * 100 + '%';
+              particle.style.top = Math.random() * 100 + '%';
+              
+              // Random color
+              const colors = ['rgba(6, 182, 212, 0.3)', 'rgba(168, 85, 247, 0.3)', 'rgba(236, 72, 153, 0.3)'];
+              particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+              
+              particlesContainer.appendChild(particle);
+              particles.push(particle);
+              
+              // Animate particle
+              animateParticle(particle);
+            }
+            
+            function animateParticle(particle) {
+              const speed = Math.random() * 0.5 + 0.2;
+              const directionX = Math.random() * 2 - 1;
+              const directionY = Math.random() * 2 - 1;
+              
+              function move() {
+                const currentLeft = parseFloat(particle.style.left);
+                const currentTop = parseFloat(particle.style.top);
+                
+                let newLeft = currentLeft + directionX * speed;
+                let newTop = currentTop + directionY * speed;
+                
+                // Bounce off edges
+                if (newLeft < 0 || newLeft > 100) {
+                  directionX *= -1;
+                  newLeft = Math.max(0, Math.min(100, newLeft));
+                }
+                
+                if (newTop < 0 || newTop > 100) {
+                  directionY *= -1;
+                  newTop = Math.max(0, Math.min(100, newTop));
+                }
+                
+                particle.style.left = newLeft + '%';
+                particle.style.top = newTop + '%';
+                
+                requestAnimationFrame(move);
+              }
+              
+              move();
+            }
+            
+            // Mouse interaction
+            document.addEventListener('mousemove', function(e) {
+              const mouseX = e.clientX / window.innerWidth * 100;
+              const mouseY = e.clientY / window.innerHeight * 100;
+              
+              particles.forEach(particle => {
+                const particleX = parseFloat(particle.style.left);
+                const particleY = parseFloat(particle.style.top);
+                
+                const distance = Math.sqrt(
+                  Math.pow(mouseX - particleX, 2) + Math.pow(mouseY - particleY, 2)
+                );
+                
+                if (distance < 20) {
+                  // Push particles away from mouse
+                  const angle = Math.atan2(mouseY - particleY, mouseX - particleX);
+                  const force = (20 - distance) / 20;
+                  
+                  const newX = particleX - Math.cos(angle) * force * 5;
+                  const newY = particleY - Math.sin(angle) * force * 5;
+                  
+                  particle.style.left = Math.max(0, Math.min(100, newX)) + '%';
+                  particle.style.top = Math.max(0, Math.min(100, newY)) + '%';
+                  
+                  // Temporarily increase size
+                  particle.style.transform = 'scale(' + (1 + force) + ')';
+                  setTimeout(() => {
+                    particle.style.transform = 'scale(1)';
+                  }, 200);
+                }
+              });
+            });
+          });
+        `}</script>
       </Head>
       <div className="bg-black text-white min-h-screen font-sans overflow-x-hidden">
         <div className="fixed inset-0 bg-grid-pattern pointer-events-none opacity-30"></div>
