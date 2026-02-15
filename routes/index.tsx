@@ -388,16 +388,16 @@ export default function Home({ data }: PageProps<PageData>) {
             height: 100%;
             top: 0;
             left: 0;
-            z-index: 0;
+            z-index: -1;
             pointer-events: none;
           }
           
           .particle {
             position: absolute;
-            background: rgba(6, 182, 212, 0.3);
             border-radius: 50%;
             pointer-events: none;
             transition: all 0.3s ease;
+            box-shadow: 0 0 8px currentColor;
           }
         `}</style>
         <script>{`
@@ -428,8 +428,10 @@ export default function Home({ data }: PageProps<PageData>) {
               particle.style.top = Math.random() * 100 + '%';
               
               // Random color
-              const colors = ['rgba(6, 182, 212, 0.3)', 'rgba(168, 85, 247, 0.3)', 'rgba(236, 72, 153, 0.3)'];
-              particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+              const colors = ['rgba(6, 182, 212, 0.6)', 'rgba(168, 85, 247, 0.6)', 'rgba(236, 72, 153, 0.6)'];
+              const color = colors[Math.floor(Math.random() * colors.length)];
+              particle.style.backgroundColor = color;
+              particle.style.color = color;
               
               particlesContainer.appendChild(particle);
               particles.push(particle);
@@ -440,8 +442,8 @@ export default function Home({ data }: PageProps<PageData>) {
             
             function animateParticle(particle) {
               const speed = Math.random() * 0.5 + 0.2;
-              const directionX = Math.random() * 2 - 1;
-              const directionY = Math.random() * 2 - 1;
+              let directionX = Math.random() * 2 - 1;
+              let directionY = Math.random() * 2 - 1;
               
               function move() {
                 const currentLeft = parseFloat(particle.style.left);
